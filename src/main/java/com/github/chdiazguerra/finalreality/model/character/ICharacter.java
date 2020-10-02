@@ -1,7 +1,4 @@
-package com.github.cc3002.finalreality.model.character;
-
-import com.github.cc3002.finalreality.model.character.player.CharacterClass;
-import com.github.cc3002.finalreality.model.weapon.Weapon;
+package com.github.chdiazguerra.finalreality.model.character;
 
 /**
  * This represents a character from the game.
@@ -23,18 +20,4 @@ public interface ICharacter {
    */
   String getName();
 
-  /**
-   * Equips a weapon to the character.
-   */
-  void equip(Weapon weapon);
-
-  /**
-   * Return this character's equipped weapon.
-   */
-  Weapon getEquippedWeapon();
-
-  /**
-   * Returns this character's class.
-   */
-  CharacterClass getCharacterClass();
 }

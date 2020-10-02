@@ -3,7 +3,8 @@ ChangeLog
 
 Version 2.0
 -----------
-Write your changes in here
+- (B.2) Implementation of character classes
+- (B.1) Created character classes and enum eliminated
 
 Version 1.0
 -----------
