@@ -3,6 +3,8 @@ ChangeLog
 
 Version 2.0
 -----------
+- (B.4) Implementation of types of weapons
+- (B.3) Created types of weapons classes
 - (B.2) Implementation of character classes
 - (B.1) Created character classes and enum eliminated
 

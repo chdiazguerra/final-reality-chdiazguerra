@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import com.github.chdiazguerra.finalreality.model.character.ICharacter;
 import com.github.chdiazguerra.finalreality.model.weapon.Weapon;
-import com.github.chdiazguerra.finalreality.model.weapon.WeaponType;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
