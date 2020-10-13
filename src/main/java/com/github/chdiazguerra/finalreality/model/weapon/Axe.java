@@ -2,7 +2,7 @@ package com.github.chdiazguerra.finalreality.model.weapon;
 
 import java.util.Objects;
 
-public class Axe extends Weapon{
+public class Axe extends AbstractWeapon {
     /**
      * Creates a weapon with a name, a base damage, speed and it's type.
      *
@@ -32,4 +32,5 @@ public class Axe extends Weapon{
     public int hashCode() {
         return Objects.hash(getName(), getDamage(), getWeight(), Axe.class);
     }
+
 }

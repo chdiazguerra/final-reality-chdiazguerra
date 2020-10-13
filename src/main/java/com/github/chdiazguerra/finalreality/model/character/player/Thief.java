@@ -1,14 +1,13 @@
 package com.github.chdiazguerra.finalreality.model.character.player;
 
-import com.github.chdiazguerra.finalreality.model.character.AbstractCharacter;
 import com.github.chdiazguerra.finalreality.model.character.ICharacter;
-import com.github.chdiazguerra.finalreality.model.weapon.Weapon;
+import com.github.chdiazguerra.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 
-public class Thief extends AbstractCharacter {
+public class Thief extends AbstractPlayerCharacter {
 
     /**
      *
@@ -23,7 +22,7 @@ public class Thief extends AbstractCharacter {
 
     @Override
     public int hashCode() {
-        return Objects.hash(Thief.class);
+        return Objects.hash(Thief.class, getName());
     }
 
     @Override
@@ -39,7 +38,7 @@ public class Thief extends AbstractCharacter {
     }
 
     @Override
-    public void equip(Weapon weapon) {
+    public void equip(IWeapon weapon) {
         this.equippedWeapon = weapon;
     }
 }

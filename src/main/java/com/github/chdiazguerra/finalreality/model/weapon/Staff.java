@@ -2,7 +2,7 @@ package com.github.chdiazguerra.finalreality.model.weapon;
 
 import java.util.Objects;
 
-public class Staff extends Weapon{
+public class Staff extends AbstractWeapon {
     /**
      * Creates a weapon with a name, a base damage, speed and it's type.
      *

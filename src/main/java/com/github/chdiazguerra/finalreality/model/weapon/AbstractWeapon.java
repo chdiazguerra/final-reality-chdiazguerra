@@ -8,17 +8,16 @@ import java.util.Objects;
  * @author Ignacio Slater Muñoz.
  * @author Christian Díaz Guerra
  */
-public class Weapon {
+public abstract class AbstractWeapon implements IWeapon{
 
   private final String name;
   private final int damage;
   private final int weight;
 
   /**
-   * Creates a weapon with a name, a base damage, speed and it's type.
-   *
+   * Creates a weapon with a name, a base damage and weight.
    */
-  public Weapon(final String name, final int damage, final int weight) {
+  protected AbstractWeapon(final String name, final int damage, final int weight) {
     this.name = name;
     this.damage = damage;
     this.weight = weight;
@@ -32,6 +31,7 @@ public class Weapon {
     return damage;
   }
 
+  @Override
   public int getWeight() {
     return weight;
   }

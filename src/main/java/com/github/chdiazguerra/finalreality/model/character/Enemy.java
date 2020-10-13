@@ -6,7 +6,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-//import com.github.chdiazguerra.finalreality.model.character.player.PlayerCharacter;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -15,11 +14,9 @@ import org.jetbrains.annotations.NotNull;
  * @author Ignacio Slater Muñoz
  * @author Christian Díaz Guerra
  */
-public class Enemy implements ICharacter {
+public class Enemy extends AbstractCharacter{
 
   private final int weight;
-  protected final BlockingQueue<ICharacter> turnsQueue;
-  protected final String name;
   protected ScheduledExecutorService scheduledExecutor;
 
   /**
@@ -28,8 +25,7 @@ public class Enemy implements ICharacter {
    */
   public Enemy(@NotNull final String name, final int weight,
       @NotNull final BlockingQueue<ICharacter> turnsQueue) {
-    this.turnsQueue = turnsQueue;
-    this.name = name;
+    super(turnsQueue, name);
     this.weight = weight;
   }
 
@@ -52,21 +48,11 @@ public class Enemy implements ICharacter {
   }
 
   @Override
-  public String getName() {
-    return name;
-  }
-
-  @Override
   public void waitTurn() {
     scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
     scheduledExecutor
             .schedule(this::addToQueue, this.getWeight() / 10, TimeUnit.SECONDS);
     }
-
-  private void addToQueue() {
-    turnsQueue.add(this);
-    scheduledExecutor.shutdown();
-  }
 
   /**
    * Returns the weight of this enemy.

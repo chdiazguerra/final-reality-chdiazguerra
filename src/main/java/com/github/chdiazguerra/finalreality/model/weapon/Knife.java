@@ -2,7 +2,7 @@ package com.github.chdiazguerra.finalreality.model.weapon;
 
 import java.util.Objects;
 
-public class Knife extends  Weapon{
+public class Knife extends AbstractWeapon {
     /**
      * Creates a weapon with a name, a base damage, speed and it's type.
      *
