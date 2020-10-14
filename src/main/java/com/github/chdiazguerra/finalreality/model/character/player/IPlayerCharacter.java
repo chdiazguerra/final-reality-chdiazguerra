@@ -1,15 +1,16 @@
 package com.github.chdiazguerra.finalreality.model.character.player;
 
-import com.github.chdiazguerra.finalreality.model.character.ICharacter;
-import com.github.chdiazguerra.finalreality.model.weapon.AbstractWeapon;
 import com.github.chdiazguerra.finalreality.model.weapon.IWeapon;
 
-public interface IPlayerCharacter extends ICharacter {
+/**
+ * This represents a player character from the game, controlled by the user.
+ *
+ * @author Christian Díaz Guerra
+ */
+public interface IPlayerCharacter {
 
     /**
      * Equip a weapon for this character, depending on the type of the weapon and class of the character
-     * @param weapon
-     * @return
      */
     void equip(IWeapon weapon);
 

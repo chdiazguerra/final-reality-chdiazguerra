@@ -9,6 +9,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * A class containing the tests for Enemy class.
+ *
+ * @author Christian Díaz Guerra
+ * @see Enemy
+ */
 class EnemyTest extends AbstractCharacterTest {
 
   private static final String ENEMY_NAME = "Goblin";
@@ -29,7 +35,7 @@ class EnemyTest extends AbstractCharacterTest {
   }
 
   /**
-   * Checks that the character waits the appropriate amount of time for it's turn.
+   * Checks that the enemy waits the appropriate amount of time for it's turn.
    */
   @Test
   void waitTurnTest() {

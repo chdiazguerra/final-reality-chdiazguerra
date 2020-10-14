@@ -8,6 +8,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+/**
+ * A class containing the tests for Thief class.
+ *
+ * @author Christian Díaz Guerra
+ * @see Thief
+ */
 class ThiefTest extends AbstractCharacterTest{
 
     private static final String THIEF_NAME = "Zidane";

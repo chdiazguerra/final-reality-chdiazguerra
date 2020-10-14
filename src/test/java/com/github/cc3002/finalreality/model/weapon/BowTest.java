@@ -14,6 +14,6 @@ class BowTest extends AbstractWeaponTest{
     @Test
     void constructorTest(){
         checkConstruction(new Bow(BOW_NAME, DAMAGE, WEIGHT), testBow, new Bow(DIFFERENT_NAME, DAMAGE, WEIGHT),
-                testKnife);
+                testKnife, new Bow(BOW_NAME, DIFFERENT_DAMAGE, WEIGHT), new Bow(BOW_NAME, DAMAGE, DIFFERENT_WEIGHT));
     }
 }

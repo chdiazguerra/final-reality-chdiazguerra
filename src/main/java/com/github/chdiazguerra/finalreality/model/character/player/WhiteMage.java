@@ -7,11 +7,20 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * A class that holds all the information of a White Mage class character.
+ *
+ * @author Christian Díaz Guerra
+ */
 public class WhiteMage extends AbstractPlayerCharacter {
+
     /**
+     * Creates a new character of White Mage class, with a name and the queue.
      *
      * @param name
+     *     the character's name
      * @param turnsQueue
+     *     the queue with the characters waiting for their turn
      */
 
     public WhiteMage(@NotNull String name,

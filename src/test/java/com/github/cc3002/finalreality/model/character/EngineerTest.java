@@ -8,6 +8,12 @@ import com.github.chdiazguerra.finalreality.model.character.player.Thief;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * A class containing the tests for Engineer class.
+ *
+ * @author Christian Díaz Guerra
+ * @see Engineer
+ */
 class EngineerTest extends AbstractCharacterTest {
     private static final String ENGINEER_NAME = "Cid";
     private Engineer testEngineer;

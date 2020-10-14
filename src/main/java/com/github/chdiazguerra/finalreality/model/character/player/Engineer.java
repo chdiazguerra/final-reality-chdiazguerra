@@ -7,12 +7,21 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * A class that holds all the information of a Engineer class character.
+ *
+ * @author Christian Díaz Guerra
+ */
+
 public class Engineer extends AbstractPlayerCharacter {
 
     /**
+     * Creates a new character of Engineer class, with a name and the queue.
      *
      * @param name
+     *     the character's name
      * @param turnsQueue
+     *     the queue with the characters waiting for their turn
      */
 
     public Engineer(@NotNull String name,

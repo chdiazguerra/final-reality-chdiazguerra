@@ -15,6 +15,6 @@ class AxeTest extends AbstractWeaponTest {
     @Test
     void constructorTest(){
         checkConstruction(new Axe(AXE_NAME, DAMAGE, WEIGHT), testAxe, new Axe(DIFFERENT_NAME, DAMAGE, WEIGHT),
-                testKnife);
+                testKnife, new Axe(AXE_NAME, DIFFERENT_DAMAGE, WEIGHT), new Axe(AXE_NAME, DAMAGE, DIFFERENT_WEIGHT));
     }
 }

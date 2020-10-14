@@ -2,14 +2,22 @@ package com.github.chdiazguerra.finalreality.model.weapon;
 
 import java.util.Objects;
 
+/**
+ * A class that holds all the information of a Bow type weapon.
+ *
+ * @author Christian Díaz Guerra
+ */
 public class Bow extends AbstractWeapon {
 
     /**
-     * Creates a weapon with a name, a base damage, speed and it's type.
+     * Creates a weapon of Bow type with a name, a base damage and it's weight.
      *
      * @param name
+     *    the weapon's name
      * @param damage
+     *    the weapon's damage
      * @param weight
+     *    the weapon's weight
      */
     public Bow(String name, int damage, int weight) {
         super(name, damage, weight);

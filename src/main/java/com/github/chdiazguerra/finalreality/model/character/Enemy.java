@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * A class that holds all the information of a single enemy of the game.
+ * A class that holds all the information of a single enemy of the game, controlled by the CPU.
  *
  * @author Ignacio Slater Muñoz
  * @author Christian Díaz Guerra
@@ -22,6 +22,12 @@ public class Enemy extends AbstractCharacter{
   /**
    * Creates a new enemy with a name, a weight and the queue with the characters ready to
    * play.
+   * @param name
+   *     the name of the enemy
+   * @param weight
+   *     the weight of the enemy
+   * @param turnsQueue
+   *     the queue with the characters waiting for their turn
    */
   public Enemy(@NotNull final String name, final int weight,
       @NotNull final BlockingQueue<ICharacter> turnsQueue) {

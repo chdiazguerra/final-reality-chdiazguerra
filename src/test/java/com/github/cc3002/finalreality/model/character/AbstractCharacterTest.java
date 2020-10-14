@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Assertions;
  * Abstract class containing the common tests for all the types of characters.
  *
  * @author Ignacio Slater Muñoz.
- * @author <Your name>
+ * @author Christian Díaz Guerra
  * @see ICharacter
  */
 public abstract class AbstractCharacterTest {

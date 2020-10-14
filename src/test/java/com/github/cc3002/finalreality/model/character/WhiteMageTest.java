@@ -8,6 +8,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+/**
+ * A class containing the tests for WhiteMage class.
+ *
+ * @author Christian Díaz Guerra
+ * @see WhiteMage
+ */
 class WhiteMageTest extends AbstractCharacterTest{
 
     private static final String WHITE_MAGE_NAME = "Eiko";

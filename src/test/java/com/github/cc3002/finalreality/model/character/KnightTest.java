@@ -1,15 +1,19 @@
 package com.github.cc3002.finalreality.model.character;
 
-import com.github.chdiazguerra.finalreality.model.character.player.Engineer;
 import com.github.chdiazguerra.finalreality.model.character.player.Knight;
 import com.github.chdiazguerra.finalreality.model.character.player.Thief;
-import com.github.chdiazguerra.finalreality.model.weapon.Knife;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+/**
+ * A class containing the tests for Knight class.
+ *
+ * @author Christian Díaz Guerra
+ * @see Knight
+ */
 class KnightTest extends AbstractCharacterTest{
 
     private static final String KNIGHT_NAME = "Adelbert";
