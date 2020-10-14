@@ -1,37 +1,39 @@
 package com.github.chdiazguerra.finalreality.model.weapon;
 
-import java.util.Objects;
 
 /**
- * A class that holds all the information of a weapon.
+ * A class that holds the common behaviour of all the weapons in the game.
  *
  * @author Ignacio Slater Muñoz.
  * @author Christian Díaz Guerra
  */
-public class Weapon {
+public abstract class AbstractWeapon implements IWeapon{
 
   private final String name;
   private final int damage;
   private final int weight;
 
-  /**
-   * Creates a weapon with a name, a base damage, speed and it's type.
-   *
-   */
-  public Weapon(final String name, final int damage, final int weight) {
+  protected AbstractWeapon(final String name, final int damage, final int weight) {
     this.name = name;
     this.damage = damage;
     this.weight = weight;
   }
 
+  /**
+   * Returns the weapon's name
+   */
   protected String getName() {
     return name;
   }
 
+  /**
+   * Returns the weapon's damage
+   */
   protected int getDamage() {
     return damage;
   }
 
+  @Override
   public int getWeight() {
     return weight;
   }

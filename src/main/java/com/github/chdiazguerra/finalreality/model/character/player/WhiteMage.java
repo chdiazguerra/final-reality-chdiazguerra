@@ -1,18 +1,26 @@
 package com.github.chdiazguerra.finalreality.model.character.player;
 
-import com.github.chdiazguerra.finalreality.model.character.AbstractCharacter;
 import com.github.chdiazguerra.finalreality.model.character.ICharacter;
-import com.github.chdiazguerra.finalreality.model.weapon.Weapon;
+import com.github.chdiazguerra.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 
-public class WhiteMage extends AbstractCharacter {
+/**
+ * A class that holds all the information of a White Mage class character.
+ *
+ * @author Christian Díaz Guerra
+ */
+public class WhiteMage extends AbstractPlayerCharacter {
+
     /**
+     * Creates a new character of White Mage class, with a name and the queue.
      *
      * @param name
+     *     the character's name
      * @param turnsQueue
+     *     the queue with the characters waiting for their turn
      */
 
     public WhiteMage(@NotNull String name,
@@ -22,7 +30,7 @@ public class WhiteMage extends AbstractCharacter {
 
     @Override
     public int hashCode() {
-        return Objects.hash(WhiteMage.class);
+        return Objects.hash(WhiteMage.class, getName());
     }
 
     @Override
@@ -38,7 +46,7 @@ public class WhiteMage extends AbstractCharacter {
     }
 
     @Override
-    public void equip(Weapon weapon) {
+    public void equip(IWeapon weapon) {
         this.equippedWeapon = weapon;
     }
 }

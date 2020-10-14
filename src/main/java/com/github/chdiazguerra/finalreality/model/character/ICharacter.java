@@ -5,7 +5,7 @@ package com.github.chdiazguerra.finalreality.model.character;
  * A character can be controlled by the player or by the CPU (an enemy).
  *
  * @author Ignacio Slater Muñoz.
- * @author <Your name>
+ * @author Christian Díaz Guerra
  */
 public interface ICharacter {
 
