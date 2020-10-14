@@ -1,11 +1,15 @@
 package com.github.cc3002.finalreality.model.weapon;
 
-
-import com.github.chdiazguerra.finalreality.model.weapon.Axe;
 import com.github.chdiazguerra.finalreality.model.weapon.Sword;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * A class containing the test for Sword type weapon.
+ *
+ * @author Christian Díaz Guerra
+ * @see Sword
+ */
 class SwordTest extends AbstractWeaponTest{
     @BeforeEach
     void setUp(){

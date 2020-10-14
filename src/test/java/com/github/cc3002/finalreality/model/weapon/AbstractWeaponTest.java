@@ -5,6 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import com.github.chdiazguerra.finalreality.model.weapon.*;
 
+/**
+ * Abstract class containing the common test for all the types of weapons.
+ *
+ * @author Christian Díaz Guerra
+ * @see IWeapon
+ */
 class AbstractWeaponTest {
 
   protected static final String AXE_NAME = "Test Axe";
