@@ -48,6 +48,8 @@ public class Engineer extends AbstractPlayerCharacter {
 
     @Override
     public void equip(IWeapon weapon) {
-        weapon.equippedByEngineer(this);
+        if(this.getIsAlive()) {
+            weapon.equippedByEngineer(this);
+        }
     }
 }

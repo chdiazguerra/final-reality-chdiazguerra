@@ -47,6 +47,8 @@ public class Thief extends AbstractPlayerCharacter {
 
     @Override
     public void equip(IWeapon weapon) {
-        weapon.equippedByThief(this);
+        if(this.getIsAlive()) {
+            weapon.equippedByThief(this);
+        }
     }
 }

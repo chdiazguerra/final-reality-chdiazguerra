@@ -27,12 +27,12 @@ public class Sword extends AbstractWeapon {
 
     @Override
     public void equippedByKnight(Knight character) {
-        this.equipTo(character, character.getIsAlive());
+        this.equipTo(character);
     }
 
     @Override
     public void equippedByThief(Thief character) {
-        this.equipTo(character, character.getIsAlive());
+        this.equipTo(character);
     }
 
     @Override

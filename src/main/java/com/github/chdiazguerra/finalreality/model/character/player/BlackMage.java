@@ -47,6 +47,8 @@ public class BlackMage extends AbstractPlayerCharacter {
 
     @Override
     public void equip(IWeapon weapon) {
-        weapon.equippedByBlackMage(this);
+        if(this.getIsAlive()) {
+            weapon.equippedByBlackMage(this);
+        }
     }
 }

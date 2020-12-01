@@ -28,17 +28,17 @@ public class Staff extends AbstractWeapon {
 
     @Override
     public void equippedByBlackMage(BlackMage character) {
-        this.equipTo(character, character.getIsAlive());
+        this.equipTo(character);
     }
 
     @Override
     public void equippedByThief(Thief character) {
-        this.equipTo(character, character.getIsAlive());
+        this.equipTo(character);
     }
 
     @Override
     public void equippedByWhiteMage(WhiteMage character) {
-        this.equipTo(character, character.getIsAlive());
+        this.equipTo(character);
     }
 
     @Override

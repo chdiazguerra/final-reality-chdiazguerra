@@ -39,37 +39,30 @@ public abstract class AbstractWeapon implements IWeapon{
 
 
   /**
-   * Equips the weapon to character, if this one is alive
+   * Equips the weapon to character
    */
-  protected void equipTo(IPlayerCharacter character, boolean isAlive) {
-    if(isAlive){
-      character.setEquippedWeapon(this);
-    }
+  protected void equipTo(IPlayerCharacter character) {
+    character.setEquippedWeapon(this);
   }
 
   @Override
   public void equippedByBlackMage(BlackMage character) {
-    return;
   }
 
   @Override
   public void equippedByEngineer(Engineer character) {
-    return;
   }
 
   @Override
   public void equippedByKnight(Knight character) {
-    return;
   }
 
   @Override
   public void equippedByThief(Thief character) {
-    return;
   }
 
   @Override
   public void equippedByWhiteMage(WhiteMage character) {
-    return;
   }
 
 

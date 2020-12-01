@@ -28,12 +28,12 @@ public class Bow extends AbstractWeapon {
 
     @Override
     public void equippedByEngineer(Engineer character) {
-        this.equipTo(character, character.getIsAlive());
+        this.equipTo(character);
     }
 
     @Override
     public void equippedByThief(Thief character) {
-        this.equipTo(character, character.getIsAlive());
+        this.equipTo(character);
     }
 
     @Override

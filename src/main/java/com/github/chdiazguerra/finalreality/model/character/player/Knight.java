@@ -47,6 +47,8 @@ public class Knight extends AbstractPlayerCharacter {
 
     @Override
     public void equip(IWeapon weapon) {
-        weapon.equippedByKnight(this);
+        if(this.getIsAlive()) {
+            weapon.equippedByKnight(this);
+        }
     }
 }
