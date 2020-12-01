@@ -5,8 +5,6 @@ import com.github.chdiazguerra.finalreality.model.character.player.WhiteMage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * A class containing the tests for WhiteMage class.
@@ -14,28 +12,37 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * @author Christian Díaz Guerra
  * @see WhiteMage
  */
-class WhiteMageTest extends AbstractCharacterTest{
+class WhiteMageTest extends AbstractPlayerCharacterTest{
 
     private static final String WHITE_MAGE_NAME = "Eiko";
     private WhiteMage testWhiteMage;
-
     private static final String OTHER_NAME = "OTHER_NAME";
 
     @BeforeEach
     void setUp(){
-        testWhiteMage = new WhiteMage(WHITE_MAGE_NAME, turns);
+        testWhiteMage = new WhiteMage(WHITE_MAGE_NAME, turns, LIFE, DEFENSE);
+        this.weaponsCreation();
+        acceptedWeapons.add(staffTest);
+        rejectedWeapons.add(swordTest);
+        rejectedWeapons.add(axeTest);
+        rejectedWeapons.add(knifeTest);
+        rejectedWeapons.add(bowTest);
     }
 
     @Test
     void equipTest(){
-        assertNull(testWhiteMage.getEquippedWeapon());
-        testWhiteMage.equip(testWeapon);
-        assertEquals(testWeapon, testWhiteMage.getEquippedWeapon());
+        equipWeapons(testWhiteMage, acceptedWeapons, rejectedWeapons);
+    }
+
+    @Test
+    void equipDeadTest(){
+        testWhiteMage.setLife(0);
+        this.equipToDead(testWhiteMage, acceptedWeapons, rejectedWeapons);
     }
 
     @Test
     void constructionTest(){
-        checkConstruction(new WhiteMage(WHITE_MAGE_NAME, turns), testWhiteMage,
-                new WhiteMage(OTHER_NAME, turns), new Thief(WHITE_MAGE_NAME, turns));
+        checkConstruction(new WhiteMage(WHITE_MAGE_NAME, turns, LIFE, DEFENSE), testWhiteMage,
+                new WhiteMage(OTHER_NAME, turns, LIFE, DEFENSE), new Thief(WHITE_MAGE_NAME, turns, LIFE, DEFENSE));
     }
 }

@@ -1,5 +1,9 @@
 package com.github.chdiazguerra.finalreality.model.weapon;
 
+import com.github.chdiazguerra.finalreality.model.character.player.BlackMage;
+import com.github.chdiazguerra.finalreality.model.character.player.Thief;
+import com.github.chdiazguerra.finalreality.model.character.player.WhiteMage;
+
 import java.util.Objects;
 
 /**
@@ -20,6 +24,21 @@ public class Staff extends AbstractWeapon {
      */
     public Staff(String name, int damage, int weight) {
         super(name, damage, weight);
+    }
+
+    @Override
+    public void equippedByBlackMage(BlackMage character) {
+        this.equipTo(character, character.getIsAlive());
+    }
+
+    @Override
+    public void equippedByThief(Thief character) {
+        this.equipTo(character, character.getIsAlive());
+    }
+
+    @Override
+    public void equippedByWhiteMage(WhiteMage character) {
+        this.equipTo(character, character.getIsAlive());
     }
 
     @Override

@@ -19,4 +19,9 @@ public interface IPlayerCharacter {
      * Return this character's equipped weapon.
      */
     IWeapon getEquippedWeapon();
+
+    /**
+     * Set the character's weapon
+     */
+    void setEquippedWeapon(IWeapon weapon);
 }

@@ -31,6 +31,9 @@ class AbstractWeaponTest {
   protected Bow testBow;
   protected Knife testKnife;
 
+  /**
+   * Initializes the variables
+   */
   protected void basicSetUp(){
     testAxe = new Axe(AXE_NAME, DAMAGE, WEIGHT);
     testStaff = new Staff(STAFF_NAME, DAMAGE, WEIGHT);
@@ -39,7 +42,9 @@ class AbstractWeaponTest {
     testKnife = new Knife(KNIFE_NAME, DAMAGE, WEIGHT);
   }
 
-
+  /**
+   * Checks if the initialization is correct
+   */
   protected void checkConstruction(final IWeapon expectedWeapon, final IWeapon testEqualWeapon,
                          final IWeapon sameTypeDifferentNameWeapon, final IWeapon differentTypeWeapon,
                                    final IWeapon sameTypeDifferentDamageWeapon,

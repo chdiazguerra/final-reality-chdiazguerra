@@ -20,4 +20,38 @@ public interface ICharacter {
    */
   String getName();
 
+  /**
+   * Returns true if the character is alive. Otherwise, returns false
+   */
+  boolean getIsAlive();
+
+
+  /**
+   * Attacks the character passed as argument
+   * @param character
+   *     character attacked
+   */
+  void attack(ICharacter character);
+
+  /**
+   * Performs the calculations to reduce the current life,
+   * depending on the attackPoints passed as argument
+   */
+  void attacked(int attackPoints);
+
+  /**
+   * Returns the defense of the character
+   */
+  int getDefense();
+
+  /**
+   * Returns the current life of the character
+   */
+  int getLife();
+
+  /**
+   * Sets the current life to newLife
+   */
+  void setLife(int newLife);
+
 }

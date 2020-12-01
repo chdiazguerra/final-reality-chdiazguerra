@@ -24,8 +24,8 @@ public class WhiteMage extends AbstractPlayerCharacter {
      */
 
     public WhiteMage(@NotNull String name,
-                  @NotNull BlockingQueue<ICharacter> turnsQueue) {
-        super(turnsQueue, name);
+                  @NotNull BlockingQueue<ICharacter> turnsQueue, int life, int defense) {
+        super(turnsQueue, name, life, defense);
     }
 
     @Override
@@ -47,6 +47,6 @@ public class WhiteMage extends AbstractPlayerCharacter {
 
     @Override
     public void equip(IWeapon weapon) {
-        this.equippedWeapon = weapon;
+        weapon.equippedByWhiteMage(this);
     }
 }

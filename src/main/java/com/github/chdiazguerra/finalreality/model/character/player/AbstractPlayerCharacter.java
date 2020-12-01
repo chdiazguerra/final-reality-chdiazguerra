@@ -22,8 +22,13 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
 
 
     protected AbstractPlayerCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue,
-                                    @NotNull String name) {
-        super(turnsQueue, name);
+                                    @NotNull String name, int life, int defense) {
+        super(turnsQueue, name, life, defense);
+    }
+
+    @Override
+    public void setEquippedWeapon(IWeapon weapon){
+        equippedWeapon = weapon;
     }
 
     @Override
@@ -40,6 +45,13 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
         scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
         scheduledExecutor
                 .schedule(this::addToQueue, equippedWeapon.getWeight() / 10, TimeUnit.SECONDS);
+    }
+
+    @Override
+    public void attack(ICharacter character) {
+        if(this.isAlive) {
+            character.attacked(equippedWeapon.getDamage());
+        }
     }
 
 }

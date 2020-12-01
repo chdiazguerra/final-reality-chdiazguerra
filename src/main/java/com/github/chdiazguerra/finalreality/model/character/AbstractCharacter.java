@@ -16,13 +16,19 @@ public abstract class AbstractCharacter implements ICharacter {
 
   protected final BlockingQueue<ICharacter> turnsQueue;
   protected final String name;
+  protected boolean isAlive;
+  protected int life;
+  protected int defense;
   protected ScheduledExecutorService scheduledExecutor;
 
 
   protected AbstractCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue,
-                              @NotNull String name) {
+                              @NotNull String name, int life, int defense) {
     this.turnsQueue = turnsQueue;
     this.name = name;
+    this.isAlive = true;
+    this.life = life;
+    this.defense = defense;
   }
 
   @Override
@@ -41,5 +47,42 @@ public abstract class AbstractCharacter implements ICharacter {
     scheduledExecutor.shutdown();
   }
 
+  @Override
+  public boolean getIsAlive(){
+    return isAlive;
+  }
+
+  @Override
+  public abstract void attack(ICharacter character);
+
+  @Override
+  public void attacked(int attackPoints) {
+    int damage;
+    if(this.getDefense()<=attackPoints){
+      damage = attackPoints - this.getDefense();
+    }else{
+      damage = 0;
+    }
+    this.setLife(this.getLife() - damage);
+  }
+
+  @Override
+  public int getDefense(){
+    return defense;
+  }
+
+  @Override
+  public int getLife(){
+    return life;
+  }
+
+  @Override
+  public void setLife(int newLife){
+    if(newLife <= 0) {
+      this.isAlive = false;
+      newLife = 0;
+    }
+    this.life = newLife;
+  }
 
 }
