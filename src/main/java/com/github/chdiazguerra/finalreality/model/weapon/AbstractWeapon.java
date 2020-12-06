@@ -1,6 +1,7 @@
 package com.github.chdiazguerra.finalreality.model.weapon;
 
 import com.github.chdiazguerra.finalreality.model.character.player.*;
+import com.github.chdiazguerra.finalreality.model.character.player.classes.*;
 
 /**
  * A class that holds the common behaviour of all the weapons in the game.
@@ -47,22 +48,27 @@ public abstract class AbstractWeapon implements IWeapon{
 
   @Override
   public void equippedByBlackMage(BlackMage character) {
+    //do nothing
   }
 
   @Override
   public void equippedByEngineer(Engineer character) {
+    //do nothing
   }
 
   @Override
   public void equippedByKnight(Knight character) {
+    //do nothing
   }
 
   @Override
   public void equippedByThief(Thief character) {
+    //do nothing
   }
 
   @Override
   public void equippedByWhiteMage(WhiteMage character) {
+    //do nothing
   }
 
 

@@ -1,17 +1,16 @@
 package com.github.cc3002.finalreality.model.character;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
 import com.github.chdiazguerra.finalreality.model.character.Enemy;
 import com.github.chdiazguerra.finalreality.model.character.ICharacter;
-import com.github.chdiazguerra.finalreality.model.character.player.Engineer;
+import com.github.chdiazguerra.finalreality.model.character.player.classes.Engineer;
 import com.github.chdiazguerra.finalreality.model.character.player.IPlayerCharacter;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.junit.jupiter.api.Assertions;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -89,12 +88,16 @@ public abstract class AbstractCharacterTest {
    * Checks if the methods about the life of the character are correct
    */
   protected void lifeMethodsTests(ICharacter character, int initialLife){
+    assertTrue(character.getIsAlive());
     assertEquals(initialLife, character.getLife());
     character.setLife(-10);
+    assertFalse(character.getIsAlive());
     assertEquals(0, character.getLife());
     character.setLife(10);
+    assertTrue(character.getIsAlive());
     assertEquals(10, character.getLife());
     character.setLife(0);
+    assertFalse(character.getIsAlive());
     assertEquals(0, character.getLife());
   }
 

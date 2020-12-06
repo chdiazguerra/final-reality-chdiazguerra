@@ -1,7 +1,7 @@
 package com.github.chdiazguerra.finalreality.model.weapon;
 
-import com.github.chdiazguerra.finalreality.model.character.player.Engineer;
-import com.github.chdiazguerra.finalreality.model.character.player.Thief;
+import com.github.chdiazguerra.finalreality.model.character.player.classes.Engineer;
+import com.github.chdiazguerra.finalreality.model.character.player.classes.Thief;
 
 import java.util.Objects;
 

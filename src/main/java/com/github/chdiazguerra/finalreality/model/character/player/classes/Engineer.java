@@ -1,6 +1,7 @@
-package com.github.chdiazguerra.finalreality.model.character.player;
+package com.github.chdiazguerra.finalreality.model.character.player.classes;
 
 import com.github.chdiazguerra.finalreality.model.character.ICharacter;
+import com.github.chdiazguerra.finalreality.model.character.player.AbstractPlayerCharacter;
 import com.github.chdiazguerra.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
 

@@ -1,9 +1,11 @@
 package com.github.chdiazguerra.finalreality.model.character;
 
 
+import java.beans.PropertyChangeSupport;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
 
+import com.github.chdiazguerra.finalreality.controller.handlers.IHandler;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -14,9 +16,10 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class AbstractCharacter implements ICharacter {
 
+  protected final PropertyChangeSupport deadCharacterNotification = new PropertyChangeSupport(this);
+
   protected final BlockingQueue<ICharacter> turnsQueue;
   protected final String name;
-  protected boolean isAlive;
   protected int life;
   protected int defense;
   protected ScheduledExecutorService scheduledExecutor;
@@ -26,7 +29,6 @@ public abstract class AbstractCharacter implements ICharacter {
                               @NotNull String name, int life, int defense) {
     this.turnsQueue = turnsQueue;
     this.name = name;
-    this.isAlive = true;
     this.life = life;
     this.defense = defense;
   }
@@ -49,7 +51,7 @@ public abstract class AbstractCharacter implements ICharacter {
 
   @Override
   public boolean getIsAlive(){
-    return isAlive;
+    return life != 0;
   }
 
   @Override
@@ -79,10 +81,15 @@ public abstract class AbstractCharacter implements ICharacter {
   @Override
   public void setLife(int newLife){
     if(newLife <= 0) {
-      this.isAlive = false;
       newLife = 0;
+      deadCharacterNotification.firePropertyChange("DEAD_CHARACTER", null, this);
     }
     this.life = newLife;
+  }
+
+  @Override
+  public void addDeadListener(IHandler deadHandler) {
+    deadCharacterNotification.addPropertyChangeListener(deadHandler);
   }
 
 }

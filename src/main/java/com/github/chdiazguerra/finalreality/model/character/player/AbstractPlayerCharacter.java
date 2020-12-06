@@ -49,9 +49,10 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
 
     @Override
     public void attack(ICharacter character) {
-        if(this.isAlive) {
+        if(getIsAlive()) {
             character.attacked(equippedWeapon.getDamage());
         }
     }
+
 
 }

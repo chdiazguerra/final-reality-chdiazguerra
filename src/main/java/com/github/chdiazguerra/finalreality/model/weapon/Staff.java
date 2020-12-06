@@ -1,8 +1,8 @@
 package com.github.chdiazguerra.finalreality.model.weapon;
 
-import com.github.chdiazguerra.finalreality.model.character.player.BlackMage;
-import com.github.chdiazguerra.finalreality.model.character.player.Thief;
-import com.github.chdiazguerra.finalreality.model.character.player.WhiteMage;
+import com.github.chdiazguerra.finalreality.model.character.player.classes.BlackMage;
+import com.github.chdiazguerra.finalreality.model.character.player.classes.Thief;
+import com.github.chdiazguerra.finalreality.model.character.player.classes.WhiteMage;
 
 import java.util.Objects;
 

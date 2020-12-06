@@ -25,4 +25,6 @@ public interface IPlayerCharacter {
      * Set the character's weapon
      */
     void setEquippedWeapon(IWeapon weapon);
+
+
 }

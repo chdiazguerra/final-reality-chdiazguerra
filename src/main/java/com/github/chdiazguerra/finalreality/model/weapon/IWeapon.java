@@ -1,7 +1,6 @@
 package com.github.chdiazguerra.finalreality.model.weapon;
 
-import com.github.chdiazguerra.finalreality.model.character.ICharacter;
-import com.github.chdiazguerra.finalreality.model.character.player.*;
+import com.github.chdiazguerra.finalreality.model.character.player.classes.*;
 
 /**
  * This represents a weapon from the game.
@@ -21,6 +20,7 @@ public interface IWeapon {
      * Returns the weapon's damage
      */
     int getDamage();
+
 
     /**
      * Equips the weapon to character, if it applies

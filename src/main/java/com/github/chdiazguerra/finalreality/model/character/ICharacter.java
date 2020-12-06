@@ -1,5 +1,7 @@
 package com.github.chdiazguerra.finalreality.model.character;
 
+import com.github.chdiazguerra.finalreality.controller.handlers.IHandler;
+
 /**
  * This represents a character from the game.
  * A character can be controlled by the player or by the CPU (an enemy).
@@ -53,5 +55,10 @@ public interface ICharacter {
    * Sets the current life to newLife
    */
   void setLife(int newLife);
+
+  /**
+   * Adds a listener to notify that the character dies.
+   */
+  void addDeadListener(IHandler deadHandler);
 
 }

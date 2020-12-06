@@ -1,6 +1,7 @@
-package com.github.chdiazguerra.finalreality.model.character.player;
+package com.github.chdiazguerra.finalreality.model.character.player.classes;
 
 import com.github.chdiazguerra.finalreality.model.character.ICharacter;
+import com.github.chdiazguerra.finalreality.model.character.player.AbstractPlayerCharacter;
 import com.github.chdiazguerra.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
 
@@ -8,14 +9,14 @@ import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 
 /**
- * A class that holds all the information of a Black Mage class character.
+ * A class that holds all the information of a Thief class character.
  *
  * @author Christian Díaz Guerra
  */
-public class BlackMage extends AbstractPlayerCharacter {
+public class Thief extends AbstractPlayerCharacter {
 
     /**
-     * Creates a new character of Black Mage class, with a name and the queue.
+     * Creates a new character of Thief class, with a name and the queue.
      *
      * @param name
      *     the character's name
@@ -23,14 +24,14 @@ public class BlackMage extends AbstractPlayerCharacter {
      *     the queue with the characters waiting for their turn
      */
 
-    public BlackMage(@NotNull String name,
+    public Thief(@NotNull String name,
                   @NotNull BlockingQueue<ICharacter> turnsQueue, int life, int defense) {
         super(turnsQueue, name, life, defense);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(BlackMage.class, getName());
+        return Objects.hash(Thief.class, getName());
     }
 
     @Override
@@ -38,17 +39,17 @@ public class BlackMage extends AbstractPlayerCharacter {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof BlackMage)) {
+        if (!(o instanceof Thief)) {
             return false;
         }
-        final BlackMage that = (BlackMage) o;
+        final Thief that = (Thief) o;
         return getName().equals(that.getName());
     }
 
     @Override
     public void equip(IWeapon weapon) {
         if(this.getIsAlive()) {
-            weapon.equippedByBlackMage(this);
+            weapon.equippedByThief(this);
         }
     }
 }

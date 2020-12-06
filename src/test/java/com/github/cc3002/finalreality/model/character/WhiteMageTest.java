@@ -1,7 +1,7 @@
 package com.github.cc3002.finalreality.model.character;
 
-import com.github.chdiazguerra.finalreality.model.character.player.Thief;
-import com.github.chdiazguerra.finalreality.model.character.player.WhiteMage;
+import com.github.chdiazguerra.finalreality.model.character.player.classes.Thief;
+import com.github.chdiazguerra.finalreality.model.character.player.classes.WhiteMage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
