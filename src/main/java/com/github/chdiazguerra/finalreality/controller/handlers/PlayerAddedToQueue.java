@@ -1,25 +1,23 @@
 package com.github.chdiazguerra.finalreality.controller.handlers;
 
 import com.github.chdiazguerra.finalreality.controller.GameController;
-import com.github.chdiazguerra.finalreality.model.character.player.IPlayerCharacter;
 
 import java.beans.PropertyChangeEvent;
 
 /**
- * Handler for managing the dead of a player character.
+ * The handler for the event when a player character is added to the turns queue.
  * @author Christian Díaz Guerra
  */
-public class DeadPlayerCharacterHandler implements IHandler{
+public class PlayerAddedToQueue implements IHandler{
 
     private final GameController controller;
 
-    public DeadPlayerCharacterHandler(GameController controller) {
+    public PlayerAddedToQueue(GameController controller) {
         this.controller = controller;
     }
 
-
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        controller.deadPlayerCharacter((IPlayerCharacter) evt.getNewValue());
+        controller.playerAdded();
     }
 }

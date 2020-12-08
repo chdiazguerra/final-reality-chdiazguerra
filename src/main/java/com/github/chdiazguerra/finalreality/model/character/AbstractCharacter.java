@@ -16,7 +16,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class AbstractCharacter implements ICharacter {
 
-  protected final PropertyChangeSupport deadCharacterNotification = new PropertyChangeSupport(this);
+  protected final PropertyChangeSupport characterDeathEvent = new PropertyChangeSupport(this);
+  protected final PropertyChangeSupport addedToQueueEvent = new PropertyChangeSupport(this);
 
   protected final BlockingQueue<ICharacter> turnsQueue;
   protected final String name;
@@ -46,6 +47,7 @@ public abstract class AbstractCharacter implements ICharacter {
    */
   protected void addToQueue() {
     turnsQueue.add(this);
+    addedToQueueEvent.firePropertyChange("CHARACTER_ADDED_TO_QUEUE", null, this);
     scheduledExecutor.shutdown();
   }
 
@@ -82,14 +84,20 @@ public abstract class AbstractCharacter implements ICharacter {
   public void setLife(int newLife){
     if(newLife <= 0) {
       newLife = 0;
-      deadCharacterNotification.firePropertyChange("DEAD_CHARACTER", null, this);
+      characterDeathEvent.firePropertyChange("DEATH_CHARACTER", null, this);
     }
     this.life = newLife;
   }
 
   @Override
   public void addDeadListener(IHandler deadHandler) {
-    deadCharacterNotification.addPropertyChangeListener(deadHandler);
+    characterDeathEvent.addPropertyChangeListener(deadHandler);
   }
+
+  @Override
+  public void addAddedToQueueListener(IHandler queueHandler) {
+    addedToQueueEvent.addPropertyChangeListener(queueHandler);
+  }
+
 
 }

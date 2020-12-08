@@ -13,6 +13,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class has all the tests for the game controller.
+ * @author Christian Díaz Guerra
+ */
 public class GameControllerTest {
 
     private GameController controller;
@@ -23,6 +27,7 @@ public class GameControllerTest {
     private final int TEST_LIFE = 10;
     private final int TEST_DEFENSE = 5;
     private final int TEST_WEIGHT = 15;
+    private final int TEST_WEIGHT_2 = 20;
 
 
     @BeforeEach
@@ -153,7 +158,7 @@ public class GameControllerTest {
     void attackTest(){
         createInstance();
 
-        controller.attackToEnemy(controller.getPlayerCharacter(0), 0);
+        controller.attackToEnemy((ICharacter) controller.getPlayerCharacter(0), 0);
         assertEquals(TEST_LIFE-(TEST_ATTACK-TEST_DEFENSE),
                 controller.getCharacterLife(controller.getEnemy(0)));
 
@@ -166,11 +171,11 @@ public class GameControllerTest {
     void winTest(){
         createInstance();
 
-        controller.attackToEnemy(controller.getPlayerCharacter(0), 0);
-        controller.attackToEnemy(controller.getPlayerCharacter(0), 0);
+        controller.attackToEnemy((ICharacter)controller.getPlayerCharacter(0), 0);
+        controller.attackToEnemy((ICharacter)controller.getPlayerCharacter(0), 0);
 
-        controller.attackToEnemy(controller.getPlayerCharacter(0), 0);
-        controller.attackToEnemy(controller.getPlayerCharacter(0), 0);
+        controller.attackToEnemy((ICharacter)controller.getPlayerCharacter(0), 0);
+        controller.attackToEnemy((ICharacter)controller.getPlayerCharacter(0), 0);
 
 
         assertTrue(controller.win);
@@ -195,15 +200,33 @@ public class GameControllerTest {
         controller.createEnemy(TEST_NAME, TEST_WEIGHT, TEST_LIFE, TEST_DEFENSE, TEST_ATTACK);
         controller.createEnemy(TEST_NAME, TEST_WEIGHT, TEST_LIFE, TEST_DEFENSE, TEST_ATTACK);
 
-        controller.createSword(TEST_NAME, TEST_ATTACK, TEST_WEIGHT);
+        controller.createSword(TEST_NAME, TEST_ATTACK, TEST_WEIGHT_2);
         controller.createKnight(TEST_NAME, TEST_LIFE, TEST_DEFENSE);
 
-        controller.createSword(TEST_NAME, TEST_ATTACK, TEST_WEIGHT);
+        controller.createSword(TEST_NAME, TEST_ATTACK, TEST_WEIGHT_2);
         controller.createKnight(TEST_NAME, TEST_LIFE, TEST_DEFENSE);
 
         controller.equipWeaponFromInventory(0, controller.getPlayerCharacter(0));
         controller.equipWeaponFromInventory(1, controller.getPlayerCharacter(1));
     }
+
+    @Test
+    void turnsTest() throws InterruptedException {
+        createInstance();
+
+        controller.getEnemy(0).waitTurn();
+        ((ICharacter)controller.getPlayerCharacter(0)).waitTurn();
+
+        Thread.sleep(2000);
+
+        controller.beginTurn();
+        assertEquals(new Enemy(TEST_NAME, TEST_WEIGHT, testTurnQueue, TEST_LIFE, TEST_DEFENSE, TEST_ATTACK),
+                controller.getCharacterTurn());
+        controller.attackToPlayer(controller.getCharacterTurn(), 0);
+
+
+    }
+
 
 
 

@@ -61,4 +61,9 @@ public interface ICharacter {
    */
   void addDeadListener(IHandler deadHandler);
 
+  /**
+   * Adds the listener to notify that the character was added to the queue
+   */
+  void addAddedToQueueListener(IHandler queueHandler);
+
 }

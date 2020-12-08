@@ -5,6 +5,10 @@ import com.github.chdiazguerra.finalreality.model.character.Enemy;
 
 import java.beans.PropertyChangeEvent;
 
+/**
+ * Handler for managing the dead of an enemy.
+ * @author Christian Díaz Guerra
+ */
 public class DeadEnemyHandler implements IHandler{
     private final GameController controller;
 
