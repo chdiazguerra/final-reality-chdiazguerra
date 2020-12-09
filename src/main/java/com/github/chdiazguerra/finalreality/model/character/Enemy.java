@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 public class Enemy extends AbstractCharacter{
 
   private final int weight;
+  private int damage;
   protected ScheduledExecutorService scheduledExecutor;
 
   /**
@@ -30,9 +31,10 @@ public class Enemy extends AbstractCharacter{
    *     the queue with the characters waiting for their turn
    */
   public Enemy(@NotNull final String name, final int weight,
-      @NotNull final BlockingQueue<ICharacter> turnsQueue) {
-    super(turnsQueue, name);
+      @NotNull final BlockingQueue<ICharacter> turnsQueue, int life, int defense, int damage) {
+    super(turnsQueue, name, life, defense);
     this.weight = weight;
+    this.damage = damage;
   }
 
 
@@ -60,11 +62,19 @@ public class Enemy extends AbstractCharacter{
             .schedule(this::addToQueue, this.getWeight() / 10, TimeUnit.SECONDS);
     }
 
+  @Override
+  public void attack(ICharacter character) {
+    if(getIsAlive()) {
+      character.attacked(this.damage);
+    }
+  }
+
   /**
    * Returns the weight of this enemy.
    */
   public int getWeight() {
     return weight;
   }
+
 
 }

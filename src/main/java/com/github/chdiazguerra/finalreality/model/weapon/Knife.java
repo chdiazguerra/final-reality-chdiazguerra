@@ -1,5 +1,8 @@
 package com.github.chdiazguerra.finalreality.model.weapon;
 
+import com.github.chdiazguerra.finalreality.model.character.player.classes.BlackMage;
+import com.github.chdiazguerra.finalreality.model.character.player.classes.Knight;
+
 import java.util.Objects;
 
 /**
@@ -20,6 +23,16 @@ public class Knife extends AbstractWeapon {
      */
     public Knife(String name, int damage, int weight) {
         super(name, damage, weight);
+    }
+
+    @Override
+    public void equippedByBlackMage(BlackMage character) {
+        this.equipTo(character);
+    }
+
+    @Override
+    public void equippedByKnight(Knight character) {
+        this.equipTo(character);
     }
 
     @Override

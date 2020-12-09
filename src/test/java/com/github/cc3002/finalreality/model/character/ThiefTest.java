@@ -1,12 +1,9 @@
 package com.github.cc3002.finalreality.model.character;
 
-import com.github.chdiazguerra.finalreality.model.character.player.Knight;
-import com.github.chdiazguerra.finalreality.model.character.player.Thief;
+import com.github.chdiazguerra.finalreality.model.character.player.classes.Knight;
+import com.github.chdiazguerra.finalreality.model.character.player.classes.Thief;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * A class containing the tests for Thief class.
@@ -14,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * @author Christian Díaz Guerra
  * @see Thief
  */
-class ThiefTest extends AbstractCharacterTest{
+class ThiefTest extends AbstractPlayerCharacterTest{
 
     private static final String THIEF_NAME = "Zidane";
     private Thief testThief;
@@ -24,20 +21,30 @@ class ThiefTest extends AbstractCharacterTest{
 
     @BeforeEach
     void setUp(){
-        testThief = new Thief(THIEF_NAME, turns);
+        testThief = new Thief(THIEF_NAME, turns, LIFE, DEFENSE);
+        this.weaponsCreation();
+        acceptedWeapons.add(swordTest);
+        acceptedWeapons.add(staffTest);
+        acceptedWeapons.add(bowTest);
+        rejectedWeapons.add(axeTest);
+        rejectedWeapons.add(knifeTest);
     }
 
     @Test
     void equipTest(){
-        assertNull(testThief.getEquippedWeapon());
-        testThief.equip(testWeapon);
-        assertEquals(testWeapon, testThief.getEquippedWeapon());
+        equipWeapons(testThief, acceptedWeapons, rejectedWeapons);
+    }
+
+    @Test
+    void equipDeadTest(){
+        testThief.setLife(0);
+        this.equipToDead(testThief, acceptedWeapons, rejectedWeapons);
     }
 
     @Test
     void constructionTest(){
-        checkConstruction(new Thief(THIEF_NAME, turns), testThief,
-                new Thief(OTHER_NAME, turns), new Knight(THIEF_NAME, turns));
+        checkConstruction(new Thief(THIEF_NAME, turns, LIFE, DEFENSE), testThief,
+                new Thief(OTHER_NAME, turns, LIFE, DEFENSE), new Knight(THIEF_NAME, turns, LIFE, DEFENSE));
     }
 
 }

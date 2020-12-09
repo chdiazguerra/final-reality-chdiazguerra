@@ -1,6 +1,7 @@
-package com.github.chdiazguerra.finalreality.model.character.player;
+package com.github.chdiazguerra.finalreality.model.character.player.classes;
 
 import com.github.chdiazguerra.finalreality.model.character.ICharacter;
+import com.github.chdiazguerra.finalreality.model.character.player.AbstractPlayerCharacter;
 import com.github.chdiazguerra.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
 
@@ -8,15 +9,14 @@ import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 
 /**
- * A class that holds all the information of a Engineer class character.
+ * A class that holds all the information of a Thief class character.
  *
  * @author Christian Díaz Guerra
  */
-
-public class Engineer extends AbstractPlayerCharacter {
+public class Thief extends AbstractPlayerCharacter {
 
     /**
-     * Creates a new character of Engineer class, with a name and the queue.
+     * Creates a new character of Thief class, with a name and the queue.
      *
      * @param name
      *     the character's name
@@ -24,14 +24,14 @@ public class Engineer extends AbstractPlayerCharacter {
      *     the queue with the characters waiting for their turn
      */
 
-    public Engineer(@NotNull String name,
-                  @NotNull BlockingQueue<ICharacter> turnsQueue) {
-        super(turnsQueue, name);
+    public Thief(@NotNull String name,
+                  @NotNull BlockingQueue<ICharacter> turnsQueue, int life, int defense) {
+        super(turnsQueue, name, life, defense);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Engineer.class, getName());
+        return Objects.hash(Thief.class, getName());
     }
 
     @Override
@@ -39,15 +39,17 @@ public class Engineer extends AbstractPlayerCharacter {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Engineer)) {
+        if (!(o instanceof Thief)) {
             return false;
         }
-        final Engineer that = (Engineer) o;
+        final Thief that = (Thief) o;
         return getName().equals(that.getName());
     }
 
     @Override
     public void equip(IWeapon weapon) {
-        this.equippedWeapon = weapon;
+        if(this.getIsAlive()) {
+            weapon.equippedByThief(this);
+        }
     }
 }

@@ -1,5 +1,8 @@
 package com.github.chdiazguerra.finalreality.model.weapon;
 
+import com.github.chdiazguerra.finalreality.model.character.player.classes.Engineer;
+import com.github.chdiazguerra.finalreality.model.character.player.classes.Knight;
+
 import java.util.Objects;
 
 /**
@@ -39,6 +42,17 @@ public class Axe extends AbstractWeapon {
     @Override
     public int hashCode() {
         return Objects.hash(getName(), getDamage(), getWeight(), Axe.class);
+    }
+
+
+    @Override
+    public void equippedByKnight(Knight character){
+        equipTo(character);
+    }
+
+    @Override
+    public void equippedByEngineer(Engineer character){
+        equipTo(character);
     }
 
 }

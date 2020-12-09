@@ -1,6 +1,7 @@
-package com.github.chdiazguerra.finalreality.model.character.player;
+package com.github.chdiazguerra.finalreality.model.character.player.classes;
 
 import com.github.chdiazguerra.finalreality.model.character.ICharacter;
+import com.github.chdiazguerra.finalreality.model.character.player.AbstractPlayerCharacter;
 import com.github.chdiazguerra.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,8 +25,8 @@ public class Knight extends AbstractPlayerCharacter {
      */
 
     public Knight(@NotNull String name,
-                           @NotNull BlockingQueue<ICharacter> turnsQueue) {
-        super(turnsQueue, name);
+                           @NotNull BlockingQueue<ICharacter> turnsQueue, int life, int defense) {
+        super(turnsQueue, name, life, defense);
     }
 
     @Override
@@ -47,6 +48,8 @@ public class Knight extends AbstractPlayerCharacter {
 
     @Override
     public void equip(IWeapon weapon) {
-        this.equippedWeapon = weapon;
+        if(this.getIsAlive()) {
+            weapon.equippedByKnight(this);
+        }
     }
 }

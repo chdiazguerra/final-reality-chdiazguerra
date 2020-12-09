@@ -1,5 +1,8 @@
 package com.github.chdiazguerra.finalreality.model.weapon;
 
+import com.github.chdiazguerra.finalreality.model.character.player.classes.Engineer;
+import com.github.chdiazguerra.finalreality.model.character.player.classes.Thief;
+
 import java.util.Objects;
 
 /**
@@ -24,6 +27,16 @@ public class Bow extends AbstractWeapon {
     }
 
     @Override
+    public void equippedByEngineer(Engineer character) {
+        this.equipTo(character);
+    }
+
+    @Override
+    public void equippedByThief(Thief character) {
+        this.equipTo(character);
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
@@ -41,5 +54,7 @@ public class Bow extends AbstractWeapon {
     public int hashCode() {
         return Objects.hash(getName(), getDamage(), getWeight(), Bow.class);
     }
+
+
 
 }
