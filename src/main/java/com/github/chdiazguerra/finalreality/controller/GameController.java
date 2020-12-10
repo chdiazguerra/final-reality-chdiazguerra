@@ -295,22 +295,38 @@ public class GameController {
         win = true;
     }
 
+    /**
+     * Begins the turn of the first character in the queue
+     */
     public void beginTurn(){
         characterTurn = turnsQueue.poll();
     }
 
+
+    /**
+     * Ends the turn of the character that is playing
+     */
     public void endTurn(){
         //do something
     }
 
+    /**
+     * Method called when and enemy was added to the queue
+     */
     public void enemyAdded() {
         //do something
     }
 
+    /**
+     * Method called when a player character was added to the queue
+     */
     public void playerAdded() {
         //do something
     }
 
+    /**
+     * Returns the character that is playing
+     */
     public ICharacter getCharacterTurn(){
         return characterTurn;
     }
