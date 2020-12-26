@@ -1,10 +1,15 @@
 package com.github.chdiazguerra.finalreality.gui;
 
+import com.github.chdiazguerra.finalreality.controller.GameController;
+import com.github.chdiazguerra.finalreality.gui.scenes.InitScene;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.io.FileNotFoundException;
 
 /**
  * Main entry point for the application.
@@ -12,24 +17,25 @@ import javafx.stage.Stage;
  * <Complete here with the details of the implemented application>
  *
  * @author Ignacio Slater Muñoz.
- * @author <Your name>
+ * @author Christian Diaz Guerra
  */
 public class FinalReality extends Application {
+  private GameController controller = new GameController();
+  private static final String RESOURCE_PATH = "src/main/resources/";
 
   public static void main(String[] args) {
     launch(args);
   }
 
   @Override
-  public void start(Stage primaryStage) {
+  public void start(Stage primaryStage) throws FileNotFoundException {
     primaryStage.setTitle("Final reality");
+    primaryStage.setResizable(false);
 
-    Label label = new Label("This will be a game sometime");
-    label.setAlignment(Pos.CENTER);
+    int width = 500;
+    int height = 600;
 
-    // This sets the size of the Scene to be 400px wide, 200px high
-    Scene scene = new Scene(label, 400, 200);
-    primaryStage.setScene(scene);
+    primaryStage.setScene(new InitScene(width, height, RESOURCE_PATH, primaryStage, controller).build());
 
     primaryStage.show();
   }

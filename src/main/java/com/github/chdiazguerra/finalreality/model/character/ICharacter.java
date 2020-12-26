@@ -66,4 +66,5 @@ public interface ICharacter {
    */
   void addAddedToQueueListener(IHandler queueHandler);
 
+
 }

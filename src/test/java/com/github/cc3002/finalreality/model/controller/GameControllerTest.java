@@ -220,9 +220,14 @@ public class GameControllerTest {
         Thread.sleep(2000);
 
         controller.beginTurn();
+        assertNotNull(controller.getCharacterTurn());
         assertEquals(new Enemy(TEST_NAME, TEST_WEIGHT, testTurnQueue, TEST_LIFE, TEST_DEFENSE, TEST_ATTACK),
                 controller.getCharacterTurn());
         controller.attackToPlayer(controller.getCharacterTurn(), 0);
+        controller.attackToPlayer(controller.getCharacterTurn(), 0);
+
+        controller.beginTurn();
+        assertNull(controller.getCharacterTurn());
 
 
     }

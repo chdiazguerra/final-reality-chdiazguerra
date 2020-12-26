@@ -5,20 +5,20 @@ import com.github.chdiazguerra.finalreality.controller.GameController;
 import java.beans.PropertyChangeEvent;
 
 /**
- * The handler for the event when an enemy is added to the turns queue.
+ * The handler for the event when a character is added to the turns queue.
  * @author Christian Díaz Guerra
  */
-public class EnemyAddedToQueue implements IHandler {
+public class CharacterAddedToQueue implements IHandler {
 
     private final GameController controller;
 
-    public EnemyAddedToQueue(GameController controller) {
+    public CharacterAddedToQueue(GameController controller) {
         this.controller = controller;
     }
 
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        controller.enemyAdded();
+        controller.characterAdded();
     }
 }
