@@ -16,6 +16,8 @@ import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
@@ -28,7 +30,8 @@ public class InitScene {
     private final String PATH;
     private int totalAccepted = 0;
     private HBox firstBox, secondBox, thirdBox, fourthBox, enemyBox;
-    int width, height;
+    private int width, height;
+    private List<ImageView> playerImages;
 
 
     public InitScene(int width, int height, String pathFiles, Stage primaryStage, GameController controller){
@@ -37,11 +40,13 @@ public class InitScene {
         this.controller = controller;
         this.primaryStage = primaryStage;
         this.PATH = pathFiles;
+        playerImages = new ArrayList<>();
     }
 
     public Scene build() throws FileNotFoundException {
 
         root = new VBox(10);
+        root.setPadding(new Insets(10));
 
         scene = new Scene(root, width, height);
 
@@ -64,9 +69,9 @@ public class InitScene {
         ImageView imageEnemy = new ImageView(new Image(new FileInputStream(PATH + "Enemy.gif")));
         Label enemyLabel = new Label("Enemies");
         enemyLabel.setTextFill(Color.WHITE);
-        Spinner<Integer> numberEnemies = new Spinner<>(1,7,1, 1);
+        Spinner<Integer> numberEnemies = new Spinner<>(1,7,4, 1);
         Button enemyAccept = new Button("Accept");
-        enemyAccept.setOnAction(event -> {numberEnemies.getValue(); numberEnemies.setDisable(true); enemyAccept.setDisable(true); totalAccepted++;});
+        enemyAccept.setOnAction(event -> {acceptEnemy(numberEnemies.getValue()); numberEnemies.setDisable(true); enemyAccept.setDisable(true); totalAccepted++;});
         enemyBox.setSpacing(5);
         enemyBox.getChildren().addAll(imageEnemy, enemyLabel, numberEnemies, enemyAccept);
 
@@ -80,8 +85,14 @@ public class InitScene {
 
 
         Button finalNext = new Button("Next");
-        finalNext.setOnAction(event -> {next();});
-        finalNext.setPadding(new Insets(10));
+        finalNext.setOnAction(event -> {
+            try {
+                next();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
+        finalNext.setPadding(new Insets(20));
 
         root.getChildren().addAll(finalNext);
 
@@ -111,7 +122,7 @@ public class InitScene {
         Button accept = new Button("Accept");
         accept.setOnAction(event -> {accept(box); controller.createEngineer(name.getText(),
                 rng.nextInt(20)+50,
-                rng.nextInt(2)+5); totalAccepted++;});
+                rng.nextInt(2)+5); totalAccepted++; playerImages.add(image);});
 
         box.getChildren().addAll(image, classCharacter, next, name, accept);
     }
@@ -130,14 +141,14 @@ public class InitScene {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            totalAccepted++;});
+            });
 
         TextField name = new TextField();
 
         Button accept = new Button("Accept");
         accept.setOnAction(event -> {accept(box);controller.createThief(name.getText(),
                 rng.nextInt(20)+50,
-                rng.nextInt(3)+2); totalAccepted++;});
+                rng.nextInt(3)+2); totalAccepted++; playerImages.add(image);});
 
         box.getChildren().addAll(image, classCharacter, next, name, accept);
 
@@ -156,14 +167,14 @@ public class InitScene {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            totalAccepted++;});
+            });
 
         TextField name = new TextField();
 
         Button accept = new Button("Accept");
         accept.setOnAction(event -> {accept(box);controller.createWhiteMage(name.getText(),
                 rng.nextInt(20)+50,
-                rng.nextInt(4)+1); totalAccepted++;});
+                rng.nextInt(4)+1); totalAccepted++; playerImages.add(image);});
 
         box.getChildren().addAll(image, classCharacter, next, name, accept);
 
@@ -182,14 +193,14 @@ public class InitScene {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            totalAccepted++;});
+            });
 
         TextField name = new TextField();
 
         Button accept = new Button("Accept");
         accept.setOnAction(event -> {accept(box);controller.createBlackMage(name.getText(),
                 rng.nextInt(20)+50,
-                rng.nextInt(4)+1); totalAccepted++;});
+                rng.nextInt(4)+1); totalAccepted++; playerImages.add(image);});
 
         box.getChildren().addAll(image, classCharacter, next, name, accept);
 
@@ -208,14 +219,14 @@ public class InitScene {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            totalAccepted++;});
+            });
 
         TextField name = new TextField();
 
         Button accept = new Button("Accept");
         accept.setOnAction(event -> {accept(box); controller.createEngineer(name.getText(),
                 rng.nextInt(20)+50,
-                rng.nextInt(5)+2); totalAccepted++;});
+                rng.nextInt(5)+2); totalAccepted++; playerImages.add(image);});
 
         box.getChildren().addAll(image, classCharacter, next, name, accept);
 
@@ -237,9 +248,9 @@ public class InitScene {
         }
     }
 
-    private void next(){
+    private void next() throws FileNotFoundException {
         if(totalAccepted==5){
-            primaryStage.setScene(new BattleScene(width, height, PATH, primaryStage, controller).build());
+            primaryStage.setScene(new BattleScene(width, height, PATH, primaryStage, controller, playerImages).build());
         }
     }
 }

@@ -32,8 +32,8 @@ public class FinalReality extends Application {
     primaryStage.setTitle("Final reality");
     primaryStage.setResizable(false);
 
-    int width = 500;
-    int height = 600;
+    int width = 512;
+    int height = 480;
 
     primaryStage.setScene(new InitScene(width, height, RESOURCE_PATH, primaryStage, controller).build());
 

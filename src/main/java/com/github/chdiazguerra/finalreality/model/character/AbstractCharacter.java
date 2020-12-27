@@ -26,6 +26,7 @@ public abstract class AbstractCharacter implements ICharacter {
   protected ScheduledExecutorService scheduledExecutor;
 
 
+
   protected AbstractCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue,
                               @NotNull String name, int life, int defense) {
     this.turnsQueue = turnsQueue;

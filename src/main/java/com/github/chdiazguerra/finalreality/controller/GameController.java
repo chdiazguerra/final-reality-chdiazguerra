@@ -2,6 +2,8 @@ package com.github.chdiazguerra.finalreality.controller;
 
 import com.github.chdiazguerra.finalreality.controller.handlers.*;
 import com.github.chdiazguerra.finalreality.controller.phases.Phase;
+import com.github.chdiazguerra.finalreality.controller.phases.WaitingQueuePhase;
+import com.github.chdiazguerra.finalreality.gui.scenes.BattleScene;
 import com.github.chdiazguerra.finalreality.model.character.Enemy;
 import com.github.chdiazguerra.finalreality.model.character.ICharacter;
 import com.github.chdiazguerra.finalreality.model.character.player.IPlayerCharacter;
@@ -395,5 +397,41 @@ public class GameController {
         createKnife("Knife", 0,0);
         createStaff("Staff", 0, 0);
         createSword("Sword", 0, 0);
+    }
+
+    public void setView(BattleScene BattleView){
+
+    }
+
+    public boolean isEnemyDead(int indexEnemy){
+        return !enemies.get(indexEnemy).getIsAlive();
+    }
+
+    public String getPlayerCharacterInfo(int indexPlayerCharacter){
+        String name = getCharacterName((ICharacter) playerCharacters.get(indexPlayerCharacter));
+        int life = getCharacterLife((ICharacter) playerCharacters.get(indexPlayerCharacter));
+        return name + "\n HP " + life;
+    }
+
+
+    private String[] getWeaponInfo(IWeapon weapon){
+        String name = weapon.getName();
+        String damage = "ATK " + weapon.getDamage();
+        String weight = "WGT " + weapon.getWeight();
+        String equipped = weaponIsEquipped(inventory.indexOf(weapon)) ? "EQU" : "INV";
+
+        return new String[]{name, damage, weight, equipped};
+    }
+
+    /**
+     * Cambiar
+     * @return
+     */
+    public String infoWeaponPlayerTurn(){
+        return String.join("\n", getWeaponInfo(playerCharacters.get(0).getEquippedWeapon())); //((IPlayerCharacter) characterTurn)
+    }
+
+    public String weaponInfo(IWeapon weapon){
+        return String.join(" ", getWeaponInfo(weapon));
     }
 }
