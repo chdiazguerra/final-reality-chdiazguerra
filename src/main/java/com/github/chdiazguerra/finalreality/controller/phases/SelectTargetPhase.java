@@ -1,24 +1,41 @@
 package com.github.chdiazguerra.finalreality.controller.phases;
 
+import com.github.chdiazguerra.finalreality.model.character.ICharacter;
+
+
 public class SelectTargetPhase extends Phase{
 
-    @Override
-    public void attackEnemy(int indexEnemy){
-        controller.attackToEnemy(controller.getCharacterTurn(), indexEnemy);
-    }
 
     @Override
-    public void attackPlayer(int indexPlayer){
+    public void attackPlayer(int indexPlayer) {
+        toEndTurnPhase();
+        ICharacter attacked = (ICharacter) controller.getPlayerCharacter(indexPlayer);
+        int initialLife = controller.getCharacterLife(attacked);
         controller.attackToPlayer(controller.getCharacterTurn(), indexPlayer);
+        int newLife = controller.getCharacterLife(attacked);
+        int lifeDifference = initialLife - newLife;
+        controller.getScene().attackInfo(controller.getCharacterName(controller.getCharacterTurn()),
+                lifeDifference,
+                controller.getCharacterName(attacked));
+        controller.getScene().refreshInfoColumn(indexPlayer);
     }
 
     @Override
-    public void back(){
-        changePhase(new PlayerTurnPhase());
+    public void back() {
+        toPlayerTurnPhase();
     }
 
     @Override
-    public void toEndTurn(){
-        changePhase(new EndTurnPhase());
+    public void attackEnemy(int indexEnemy) {
+        toEndTurnPhase();
+        int initialLife = controller.getCharacterLife(controller.getEnemy(indexEnemy));
+        controller.attackToEnemy(controller.getCharacterTurn(), indexEnemy);
+        int newLife = controller.getCharacterLife(controller.getEnemy(indexEnemy));
+        controller.getScene().attackInfo(controller.getCharacterName(controller.getCharacterTurn()),
+                initialLife-newLife,
+                controller.getCharacterName(controller.getEnemy(indexEnemy)));
+        controller.getScene().refreshEnemyColumns(indexEnemy);
     }
+
+
 }

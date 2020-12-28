@@ -15,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 public class BattleScene {
@@ -39,6 +40,7 @@ public class BattleScene {
         enemies = new ArrayList<>();
         this.playerImages = playerImages;
         infoLabels = new ArrayList<>();
+        controller.setScene(this);
     }
 
     public Scene build() throws FileNotFoundException {
@@ -66,7 +68,6 @@ public class BattleScene {
         bottomHBox.setPrefHeight(180);
         bottomHBox.setStyle("-fx-border-color: white;");
         root.getChildren().add(bottomHBox);
-
 
         Scene scene = new Scene(root, width, height);
 
@@ -96,9 +97,9 @@ public class BattleScene {
             infoColumn.getChildren().add(infoCharacter);
         }
 
-        refreshInfoColumn();
+        setInfoColumn();
 
-        playerTurnBox();
+        begin();
 
         return scene;
     }
@@ -116,39 +117,48 @@ public class BattleScene {
         }
     }
 
-    private void refreshInfoColumn(){
+    public void refreshEnemyColumns(int indexEnemy){
+        if(controller.isEnemyDead(indexEnemy)) {
+            enemies.get(indexEnemy).setDisable(true);
+        }
+    }
+
+    private void setInfoColumn(){
         for(int i=0; i<4; i++){
             String info = controller.getPlayerCharacterInfo(i);
             infoLabels.get(i).setText(info);
         }
     }
 
+    public void refreshInfoColumn(int indexPlayer){
+        String info = controller.getPlayerCharacterInfo(indexPlayer);
+        infoLabels.get(indexPlayer).setText(info);
+        if(controller.isPlayerDead(indexPlayer)) {
+            infoLabels.get(indexPlayer).setTextFill(Color.RED);
+        }
+    }
+
+
     public void waitingText() {
+        bottomHBox.getChildren().clear();
         Label text = new Label("Waiting for players...");
         text.setTextFill(Color.WHITE);
 
         bottomHBox.getChildren().addAll(text);
     }
 
-    /**
-     * Cambiar
-     */
+
     public void playerTurnBox(){
+        bottomHBox.getChildren().clear();
         VBox box = new VBox(5);
-        Label text = new Label("Turn of " + controller.getCharacterName((controller.getEnemy(0))));
+        Label text = new Label("Turn of " + controller.getCharacterName(controller.getCharacterTurn()));
         text.setTextFill(Color.WHITE);
 
         Button attack = new Button("Attack");
-        attack.setOnAction(event -> {bottomHBox.getChildren().clear(); selectTargetText();});
+        attack.setOnAction(event -> {selectTargetText(); controller.attack();});
 
         Button inventory = new Button("Inventory");
-        inventory.setOnAction(event -> {bottomHBox.getChildren().clear();
-            try {
-                inventoryBox();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        });
+        inventory.setOnAction(event -> {inventoryBox(); controller.toInventory();});
 
 
         box.getChildren().addAll(text, attack, inventory);
@@ -156,24 +166,30 @@ public class BattleScene {
     }
 
     public void selectTargetText(){
+        bottomHBox.getChildren().clear();
         Label text = new Label("Select the Target");
         text.setTextFill(Color.WHITE);
 
         Button back = new Button("Back");
-        back.setOnAction(event -> playerTurnBox());
+        back.setOnAction(event -> {playerTurnBox(); controller.back();});
 
         bottomHBox.getChildren().addAll(text, back);
     }
 
-    public void attackInfo(){
-        Label text = new Label("");
+    public void attackInfo(String attackingName, int damage, String attackedName){
+        bottomHBox.getChildren().clear();
+        Label text = new Label(attackingName + " did " + damage + " to " + attackedName);
         text.setTextFill(Color.WHITE);
 
         Button next = new Button("Next");
+        next.setOnAction(event -> {bottomHBox.getChildren().clear(); controller.next();});
+
+        bottomHBox.getChildren().addAll(text, next);
 
     }
 
-    public void inventoryBox() throws FileNotFoundException {
+    public void inventoryBox() {
+        bottomHBox.getChildren().clear();
         VBox currentWeapon = new VBox(5);
         currentWeapon.setPrefWidth(80);
 
@@ -189,16 +205,22 @@ public class BattleScene {
         currentWeapon.getChildren().add(currentWeaponInfo);
 
         for (int i = 0; i < 5; i++) {
+            int indexWeapon = i;
             Button button = new Button(controller.weaponInfo(controller.getInventoryWeapon(i)));
+            button.setPrefWidth(200);
+            button.setOnAction(event -> {controller.tryToEquipWeapon(indexWeapon);});
             firstColumn.getChildren().add(button);
         }
         for (int i = 5; i < 9; i++) {
+            int indexWeapon = i;
             Button button = new Button(controller.weaponInfo(controller.getInventoryWeapon(i)));
+            button.setPrefWidth(200);
+            button.setOnAction(event -> {controller.tryToEquipWeapon(indexWeapon);});
             secondColumn.getChildren().add(button);
         }
 
         Button back = new Button("back");
-        back.setOnAction(event -> {bottomHBox.getChildren().clear(); playerTurnBox();});
+        back.setOnAction(event -> {playerTurnBox(); controller.back();});
         secondColumn.getChildren().add(back);
 
         bottomHBox.getChildren().addAll(currentWeapon, firstColumn, secondColumn);
@@ -207,5 +229,49 @@ public class BattleScene {
     }
 
 
+    public void turnBox() {
+        Label text = new Label("Turn of " + controller.getCharacterName(controller.getCharacterTurn()));
+        text.setTextFill(Color.WHITE);
+
+        Button next = new Button("Next");
+        next.setOnAction(event -> controller.next());
+        bottomHBox.getChildren().addAll(text, next);
+    }
+
+    public void begin(){
+        Label text = new Label("The Battle Begins...");
+        text.setTextFill(Color.WHITE);
+
+        bottomHBox.getChildren().addAll(text);
+
+        controller.initialize();
+    }
+
+    public void enemyChoosing(){
+        bottomHBox.getChildren().clear();
+        Label text = new Label(controller.getCharacterName(controller.getCharacterTurn()) + " is choosing action");
+        text.setTextFill(Color.WHITE);
+        Button next = new Button("Next");
+        next.setOnAction(event -> {next.setDisable(true); controller.tryAttackPlayer(new Random().nextInt(controller.getAllPlayerCharacters().size())); setInfoColumn();});
+        bottomHBox.getChildren().addAll(text, next);
+    }
+
+    public void winGame(){
+        bottomHBox.getChildren().clear();
+        Label text = new Label("No enemies left. Congratulations. You Win!!");
+        Button next = new Button("Next");
+        next.setOnAction(event -> {});
+
+        bottomHBox.getChildren().addAll(text, next);
+    }
+
+    public void lostGame(){
+        bottomHBox.getChildren().clear();
+        Label text = new Label("No party characters left. You lost :(");
+        Button next = new Button("Next");
+        next.setOnAction(event -> {});
+
+        bottomHBox.getChildren().addAll(text, next);
+    }
 
 }

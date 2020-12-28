@@ -2,17 +2,14 @@ package com.github.chdiazguerra.finalreality.controller.phases;
 
 public class EndTurnPhase extends Phase{
 
-    @Override
-    public void toBeginTurn(){
-        changePhase(new BeginTurnPhase());
-    }
 
     @Override
-    public void tryBeginTurn(){
+    public void next() {
         if(controller.queueIsEmpty()){
-            changePhase(new WaitingQueuePhase());
+            controller.getScene().waitingText();
+            toWaitingQueuePhase();
+        }else {
+            controller.beginTurn();
         }
-        toBeginTurn();
     }
-
 }

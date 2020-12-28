@@ -14,50 +14,66 @@ public abstract class Phase {
         controller.setPhase(phase);
     }
 
-    public void toEnemyTurn() {
+    protected void toEndTurnPhase(){
+        changePhase(new EndTurnPhase());
+    }
+
+    protected void toEnemyTurnPhase(){
+        changePhase(new EnemyTurnPhase());
+    }
+
+    protected void toPlayerTurnPhase(){
+        changePhase(new PlayerTurnPhase());
+    }
+
+    protected void toSelectTargetPhase(){
+        changePhase(new SelectTargetPhase());
+    }
+
+    protected void toWaitingQueuePhase(){
+        changePhase(new WaitingQueuePhase());
+    }
+
+    protected void toSelectWeaponPhase(){
+        changePhase(new SelectWeaponPhase());
+    }
+
+
+    public void characterAdded(){
+
+    }
+
+
+    public void next() {
+
+    }
+
+    public void attackPlayer(int indexPlayer) {
+
+    }
+
+    public void back() {
+        
+    }
+
+    public void attack(){
+        
+    }
+
+    public void attackEnemy(int indexEnemy) {
+    }
+
+    public void toInventory() {
 
     }
 
     public void toPlayerTurn() {
     }
 
-    public void back() {
-
+    public void toEnemyTurn() {
     }
 
-    public void toSelectWeapon(){
-
-    }
-
-    public void equipWeapon(int indexWeapon){
-
-    }
-
-    public void toSelectTarget(){
-
-    }
-
-    public void attackEnemy(int indexEnemy){
-
-    }
-
-    public void attackPlayer(int indexPlayer){
-
-    }
-
-    public void toEndTurn(){
-
-    }
-
-    public void toBeginTurn(){
-
-    }
-
-    public void tryBeginTurn(){
-
-    }
-
-    public void characterAdded(){
+    public void equipWeapon(int indexWeapon) {
 
     }
 }

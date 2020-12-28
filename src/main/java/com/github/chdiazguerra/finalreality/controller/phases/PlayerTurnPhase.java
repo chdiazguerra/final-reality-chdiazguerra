@@ -2,13 +2,19 @@ package com.github.chdiazguerra.finalreality.controller.phases;
 
 public class PlayerTurnPhase extends Phase{
 
+
     @Override
-    public void toSelectWeapon(){
-        changePhase(new SelectWeaponPhase());
+    public void next() {
+        controller.getScene().playerTurnBox();
     }
 
     @Override
-    public void toSelectTarget(){
-        changePhase(new SelectTargetPhase());
+    public void attack() {
+        toSelectTargetPhase();
+    }
+
+    @Override
+    public void toInventory() {
+        toSelectWeaponPhase();
     }
 }

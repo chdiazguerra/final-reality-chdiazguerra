@@ -1,8 +1,7 @@
 package com.github.chdiazguerra.finalreality.controller;
 
 import com.github.chdiazguerra.finalreality.controller.handlers.*;
-import com.github.chdiazguerra.finalreality.controller.phases.Phase;
-import com.github.chdiazguerra.finalreality.controller.phases.WaitingQueuePhase;
+import com.github.chdiazguerra.finalreality.controller.phases.*;
 import com.github.chdiazguerra.finalreality.gui.scenes.BattleScene;
 import com.github.chdiazguerra.finalreality.model.character.Enemy;
 import com.github.chdiazguerra.finalreality.model.character.ICharacter;
@@ -39,6 +38,8 @@ public class GameController {
     private ICharacter characterTurn;
 
     private Random rng;
+
+    public BattleScene scene;
 
     //For now, this is for the tests
     public boolean win = false;
@@ -261,7 +262,6 @@ public class GameController {
      * Performs the attack from a player character to the enemy in position indexEnemy of the list of enemies
      */
     public void attackToEnemy(ICharacter playerCharacter, int indexEnemy) {
-        endTurn();
         playerCharacter.attack(getEnemy(indexEnemy));
     }
 
@@ -270,7 +270,6 @@ public class GameController {
      * of the list of player's characters
      */
     public void attackToPlayer(ICharacter enemy, int indexPlayer) {
-        endTurn();
         enemy.attack((ICharacter) getPlayerCharacter(indexPlayer));
     }
 
@@ -289,9 +288,7 @@ public class GameController {
      * Performs the actions for the lost game
      */
     public void gameOverLost(){
-        //do something
-        //For now, do this
-        lose = true;
+        setPhase(new LostGamePhase());
     }
 
     /**
@@ -309,24 +306,9 @@ public class GameController {
      * Performs the actions for the won game
      */
     public void gameOverWin() {
-        //do something
-        //For now, do this
-        win = true;
+        setPhase(new WinGamePhase());
     }
 
-    /**
-     * Ends the turn of the character that is playing
-     */
-    public void endTurn(){
-        phase.toEndTurn();
-    }
-
-    /**
-     * Method called when and enemy was added to the queue
-     */
-    public void characterAdded() {
-        phase.characterAdded();
-    }
 
     /**
      * Returns the character that is playing
@@ -341,51 +323,22 @@ public class GameController {
      * Begins the turn of the first character in the queue
      */
     public void beginTurn(){
+        setPhase(new BeginTurnPhase());
         characterTurn = turnsQueue.poll();
         if(playerCharacters.contains(characterTurn)){
-            playerTurn();
+            phase.toPlayerTurn();
         }else{
-            enemyTurn();
+            phase.toEnemyTurn();
         }
+        toTurnBox();
     }
 
 
-    public void setPhase(Phase phase) {
-        this.phase = phase;
-        phase.setController(this);
+    public void setPhase(Phase newPhase) {
+        this.phase = newPhase;
+        newPhase.setController(this);
     }
 
-    public void back(){
-        phase.back();
-    }
-
-    public void enemyTurn(){
-        phase.toEnemyTurn();
-    }
-
-    public void playerTurn(){
-        phase.toPlayerTurn();
-    }
-
-    public void tryToGoInventory(){
-        phase.toSelectWeapon();
-    }
-
-    public void tryToEquip(int indexWeapon){
-        phase.equipWeapon(indexWeapon);
-    }
-
-    public void tryAttackEnemy(int indexEnemy){
-        phase.attackEnemy(indexEnemy);
-    }
-
-    public void tryAttackPlayer(){
-        phase.attackPlayer(rng.nextInt(playerCharacters.size()));
-    }
-
-    public void tryToBeginTurn(){
-        phase.tryBeginTurn();
-    }
 
     public boolean queueIsEmpty(){
         return turnsQueue.isEmpty();
@@ -399,18 +352,20 @@ public class GameController {
         createSword("Sword", 0, 0);
     }
 
-    public void setView(BattleScene BattleView){
-
-    }
 
     public boolean isEnemyDead(int indexEnemy){
         return !enemies.get(indexEnemy).getIsAlive();
     }
 
+    public boolean isPlayerDead(int indexPlayer){
+        return !((ICharacter) playerCharacters.get(indexPlayer)).getIsAlive();
+    }
+
     public String getPlayerCharacterInfo(int indexPlayerCharacter){
         String name = getCharacterName((ICharacter) playerCharacters.get(indexPlayerCharacter));
         int life = getCharacterLife((ICharacter) playerCharacters.get(indexPlayerCharacter));
-        return name + "\n HP " + life;
+        String isAlive = isPlayerDead(indexPlayerCharacter) ? "DEAD" : "ALIVE";
+        return name + "\n HP " + life + "\t" + isAlive;
     }
 
 
@@ -423,15 +378,70 @@ public class GameController {
         return new String[]{name, damage, weight, equipped};
     }
 
-    /**
-     * Cambiar
-     * @return
-     */
     public String infoWeaponPlayerTurn(){
-        return String.join("\n", getWeaponInfo(playerCharacters.get(0).getEquippedWeapon())); //((IPlayerCharacter) characterTurn)
+        return String.join("\n", getWeaponInfo(((IPlayerCharacter) characterTurn).getEquippedWeapon()));
     }
 
     public String weaponInfo(IWeapon weapon){
         return String.join(" ", getWeaponInfo(weapon));
+    }
+
+    public void setScene(BattleScene scene){
+        this.scene = scene;
+    }
+
+    public BattleScene getScene(){
+        return scene;
+    }
+
+    public void initialize(){
+        setPhase(new WaitingQueuePhase());
+        for(int i = 0; i<4; i++){
+            ((ICharacter) playerCharacters.get(i)).waitTurn();
+        }
+        for(Enemy enemy: enemies){
+            enemy.waitTurn();
+        }
+    }
+
+    /**
+     * Method called when and character was added to the queue
+     */
+    public void characterAdded() {
+        phase.characterAdded();
+    }
+
+    public void toTurnBox(){
+        scene.turnBox();
+    }
+
+
+    public void tryAttackEnemy(int indexEnemy) {
+        phase.attackEnemy(indexEnemy);
+    }
+
+    public void next(){
+        phase.next();
+    }
+
+    public void tryAttackPlayer(int indexPlayer) {
+        phase.attackPlayer(indexPlayer);
+    }
+
+    public void back() {
+        phase.back();
+    }
+
+    public void attack() {
+        phase.attack();
+    }
+
+    public void toInventory() {
+        phase.toInventory();
+    }
+
+
+    public void tryToEquipWeapon(int indexWeapon) {
+        phase.equipWeapon(indexWeapon);
     }
 }
