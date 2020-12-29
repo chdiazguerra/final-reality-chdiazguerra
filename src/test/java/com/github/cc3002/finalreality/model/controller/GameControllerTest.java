@@ -162,7 +162,7 @@ public class GameControllerTest {
         assertEquals(TEST_LIFE-(TEST_ATTACK-TEST_DEFENSE),
                 controller.getCharacterLife(controller.getEnemy(0)));
 
-        controller.attackToPlayer(controller.getEnemy(0), 0);
+        //controller.attackToPlayer(controller.getEnemy(0), 0);
         assertEquals(TEST_LIFE-(TEST_ATTACK-TEST_DEFENSE),
                 controller.getCharacterLife((ICharacter) controller.getPlayerCharacter(0)));
     }
@@ -186,11 +186,11 @@ public class GameControllerTest {
     void loseTest(){
         createInstance();
 
-        controller.attackToPlayer(controller.getEnemy(0), 0);
-        controller.attackToPlayer(controller.getEnemy(0), 0);
+        //controller.attackToPlayer(controller.getEnemy(0), 0);
+        //controller.attackToPlayer(controller.getEnemy(0), 0);
 
-        controller.attackToPlayer(controller.getEnemy(0), 0);
-        controller.attackToPlayer(controller.getEnemy(0), 0);
+        //controller.attackToPlayer(controller.getEnemy(0), 0);
+        //controller.attackToPlayer(controller.getEnemy(0), 0);
 
         assertTrue(controller.lose);
         assertFalse(controller.win);
@@ -223,8 +223,8 @@ public class GameControllerTest {
         assertNotNull(controller.getCharacterTurn());
         assertEquals(new Enemy(TEST_NAME, TEST_WEIGHT, testTurnQueue, TEST_LIFE, TEST_DEFENSE, TEST_ATTACK),
                 controller.getCharacterTurn());
-        controller.attackToPlayer(controller.getCharacterTurn(), 0);
-        controller.attackToPlayer(controller.getCharacterTurn(), 0);
+        //controller.attackToPlayer(controller.getCharacterTurn(), 0);
+        //controller.attackToPlayer(controller.getCharacterTurn(), 0);
 
         controller.beginTurn();
         assertNull(controller.getCharacterTurn());

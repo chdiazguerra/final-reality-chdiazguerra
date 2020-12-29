@@ -1,6 +1,7 @@
 package com.github.chdiazguerra.finalreality.controller.phases;
 
 import com.github.chdiazguerra.finalreality.controller.GameController;
+import com.github.chdiazguerra.finalreality.model.character.player.IPlayerCharacter;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class Phase {
@@ -16,6 +17,7 @@ public abstract class Phase {
 
     protected void toEndTurnPhase(){
         changePhase(new EndTurnPhase());
+        controller.waitTurnActualCharacter();
     }
 
     protected void toEnemyTurnPhase(){
@@ -48,16 +50,16 @@ public abstract class Phase {
 
     }
 
-    public void attackPlayer(int indexPlayer) {
+    public void attackPlayer(IPlayerCharacter playerCharacter) {
 
     }
 
     public void back() {
-        
+
     }
 
     public void attack(){
-        
+
     }
 
     public void attackEnemy(int indexEnemy) {

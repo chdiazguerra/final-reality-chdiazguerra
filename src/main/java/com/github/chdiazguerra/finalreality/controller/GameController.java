@@ -35,6 +35,9 @@ public class GameController {
     private final List<IWeapon> inventory = new ArrayList<>();
     private final HashMap<IWeapon, IPlayerCharacter> weaponToPlayer = new HashMap<>();
 
+    private List<IPlayerCharacter> alivePlayerCharacters = new ArrayList<>();
+    private int enemiesAlive;
+
     private ICharacter characterTurn;
 
     private Random rng;
@@ -173,35 +176,35 @@ public class GameController {
      * Creates a new Axe, with damage between 8-17, weight between 15-30, and adds it to the inventory
      */
     public void createAxe(String name, int damage, int weight){
-        putWeapon(new Axe(name, rng.nextInt(9)+8, rng.nextInt(15)+15));
+        putWeapon(new Axe(name, rng.nextInt(9)+8, rng.nextInt(15)+25));
     }
 
     /**
      * Creates a new Bow, with damage between 12-17, weight between 10-20, and adds it to the inventory
      */
     public void createBow(String name, int damage, int weight){
-        putWeapon(new Bow(name, rng.nextInt(5)+12, rng.nextInt(10)+10));
+        putWeapon(new Bow(name, rng.nextInt(5)+12, rng.nextInt(10)+20));
     }
 
     /**
      * Creates a new Knife, with damage between 8-15, weight between 5-15, and adds it to the inventory
      */
     public void createKnife(String name, int damage, int weight){
-        putWeapon(new Knife(name, rng.nextInt(7)+8, rng.nextInt(10)+5));
+        putWeapon(new Knife(name, rng.nextInt(7)+8, rng.nextInt(10)+15));
     }
 
     /**
      * Creates a new Staff, with damage between 15-20, weight between 20-25, and adds it to the inventory
      */
     public void createStaff(String name, int damage, int weight){
-        putWeapon(new Staff(name, rng.nextInt(5)+15, rng.nextInt(5)+20));
+        putWeapon(new Staff(name, rng.nextInt(5)+15, rng.nextInt(5)+30));
     }
 
     /**
      * Creates a new Sword, with damage between 10-17, weight between 15-25, and adds it to the inventory
      */
     public void createSword(String name, int damage, int weight){
-        putWeapon(new Sword(name, rng.nextInt(7)+10, rng.nextInt(10)+15));
+        putWeapon(new Sword(name, rng.nextInt(7)+10, rng.nextInt(10)+25));
     }
 
     /**
@@ -269,17 +272,17 @@ public class GameController {
      * Performs the attack from an enemy to the player's character in position indexPlayer
      * of the list of player's characters
      */
-    public void attackToPlayer(ICharacter enemy, int indexPlayer) {
-        enemy.attack((ICharacter) getPlayerCharacter(indexPlayer));
+    public void attackToPlayer(ICharacter enemy, ICharacter playerCharacter) {
+        enemy.attack(playerCharacter);
     }
 
     /**
      * Removes the dead playerCharacter from the list of player's characters
      */
     public void deadPlayerCharacter(IPlayerCharacter playerCharacter) {
-        playerCharacters.remove(playerCharacter);
+        alivePlayerCharacters.remove(playerCharacter);
         turnsQueue.remove(playerCharacter);
-        if(getAllPlayerCharacters().isEmpty()){
+        if(alivePlayerCharacters.isEmpty()){
             gameOverLost();
         }
     }
@@ -295,9 +298,9 @@ public class GameController {
      * Removes the enemy from the list of enemies
      */
     public void deadEnemy(Enemy enemy) {
-        enemies.remove(enemy);
+        enemiesAlive--;
         turnsQueue.remove(enemy);
-        if(getAllEnemies().isEmpty()){
+        if(enemiesAlive==0){
             gameOverWin();
         }
     }
@@ -330,7 +333,7 @@ public class GameController {
         }else{
             phase.toEnemyTurn();
         }
-        toTurnBox();
+        scene.refreshWaitingNext();
     }
 
 
@@ -396,12 +399,14 @@ public class GameController {
 
     public void initialize(){
         setPhase(new WaitingQueuePhase());
+        alivePlayerCharacters.addAll(playerCharacters);
         for(int i = 0; i<4; i++){
             ((ICharacter) playerCharacters.get(i)).waitTurn();
         }
         for(Enemy enemy: enemies){
             enemy.waitTurn();
         }
+        enemiesAlive = enemies.size();
     }
 
     /**
@@ -424,8 +429,8 @@ public class GameController {
         phase.next();
     }
 
-    public void tryAttackPlayer(int indexPlayer) {
-        phase.attackPlayer(indexPlayer);
+    public void tryAttackPlayer() {
+        phase.attackPlayer(alivePlayerCharacters.get(rng.nextInt(alivePlayerCharacters.size())));
     }
 
     public void back() {
@@ -443,5 +448,9 @@ public class GameController {
 
     public void tryToEquipWeapon(int indexWeapon) {
         phase.equipWeapon(indexWeapon);
+    }
+
+    public void waitTurnActualCharacter(){
+        characterTurn.waitTurn();
     }
 }

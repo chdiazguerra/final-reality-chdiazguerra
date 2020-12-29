@@ -15,7 +15,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 
 public class BattleScene {
@@ -30,6 +29,8 @@ public class BattleScene {
     private List<Button> enemies;
     private List<ImageView> playerImages;
     private List<Label> infoLabels;
+
+    private Button waitingNext;
 
     public BattleScene(int width, int height, String pathFiles, Stage primaryStage, GameController controller, List<ImageView> playerImages){
         this.width = width;
@@ -99,7 +100,18 @@ public class BattleScene {
 
         setInfoColumn();
 
-        begin();
+        //begin();
+
+        Label text = new Label("The Battle Begins...");
+        text.setTextFill(Color.WHITE);
+
+        waitingNext = new Button("Next");
+        waitingNext.setOnAction(event -> turnBox());
+        waitingNext.setDisable(true);
+
+        bottomHBox.getChildren().addAll(text, waitingNext);
+
+        controller.initialize();
 
         return scene;
     }
@@ -141,10 +153,11 @@ public class BattleScene {
 
     public void waitingText() {
         bottomHBox.getChildren().clear();
+        waitingNext.setDisable(true);
         Label text = new Label("Waiting for players...");
         text.setTextFill(Color.WHITE);
 
-        bottomHBox.getChildren().addAll(text);
+        bottomHBox.getChildren().addAll(text, waitingNext);
     }
 
 
@@ -182,7 +195,7 @@ public class BattleScene {
         text.setTextFill(Color.WHITE);
 
         Button next = new Button("Next");
-        next.setOnAction(event -> {bottomHBox.getChildren().clear(); controller.next();});
+        next.setOnAction(event -> { controller.next();});
 
         bottomHBox.getChildren().addAll(text, next);
 
@@ -230,6 +243,7 @@ public class BattleScene {
 
 
     public void turnBox() {
+        bottomHBox.getChildren().clear();
         Label text = new Label("Turn of " + controller.getCharacterName(controller.getCharacterTurn()));
         text.setTextFill(Color.WHITE);
 
@@ -238,29 +252,22 @@ public class BattleScene {
         bottomHBox.getChildren().addAll(text, next);
     }
 
-    public void begin(){
-        Label text = new Label("The Battle Begins...");
-        text.setTextFill(Color.WHITE);
-
-        bottomHBox.getChildren().addAll(text);
-
-        controller.initialize();
-    }
 
     public void enemyChoosing(){
         bottomHBox.getChildren().clear();
         Label text = new Label(controller.getCharacterName(controller.getCharacterTurn()) + " is choosing action");
         text.setTextFill(Color.WHITE);
         Button next = new Button("Next");
-        next.setOnAction(event -> {next.setDisable(true); controller.tryAttackPlayer(new Random().nextInt(controller.getAllPlayerCharacters().size())); setInfoColumn();});
+        next.setOnAction(event -> {next.setDisable(true); controller.tryAttackPlayer(); setInfoColumn();});
         bottomHBox.getChildren().addAll(text, next);
     }
 
     public void winGame(){
         bottomHBox.getChildren().clear();
         Label text = new Label("No enemies left. Congratulations. You Win!!");
+        text.setTextFill(Color.WHITE);
         Button next = new Button("Next");
-        next.setOnAction(event -> {});
+        next.setOnAction(event -> new GameOverScene(width, height, playerColumn, infoColumn, primaryStage));
 
         bottomHBox.getChildren().addAll(text, next);
     }
@@ -268,10 +275,15 @@ public class BattleScene {
     public void lostGame(){
         bottomHBox.getChildren().clear();
         Label text = new Label("No party characters left. You lost :(");
+        text.setTextFill(Color.WHITE);
         Button next = new Button("Next");
-        next.setOnAction(event -> {});
+        next.setOnAction(event -> new GameOverScene(width, height, playerColumn, infoColumn, primaryStage));
 
         bottomHBox.getChildren().addAll(text, next);
+    }
+
+    public void refreshWaitingNext(){
+        waitingNext.setDisable(false);
     }
 
 }

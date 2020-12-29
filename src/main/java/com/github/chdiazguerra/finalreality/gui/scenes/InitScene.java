@@ -241,7 +241,7 @@ public class InitScene {
     private void acceptEnemy(Integer numberOfEnemies){
         for(int i=0; i<numberOfEnemies; i++){
             controller.createEnemy("Enemy "+i,
-                    rng.nextInt(20)+5,
+                    rng.nextInt(20)+15,
                     rng.nextInt(20)+50,
                     rng.nextInt(6)+1,
                     rng.nextInt(12)+8);

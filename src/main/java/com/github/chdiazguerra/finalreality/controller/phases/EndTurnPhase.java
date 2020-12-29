@@ -10,6 +10,7 @@ public class EndTurnPhase extends Phase{
             toWaitingQueuePhase();
         }else {
             controller.beginTurn();
+            controller.toTurnBox();
         }
     }
 }

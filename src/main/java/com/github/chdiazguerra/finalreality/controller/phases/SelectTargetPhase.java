@@ -1,23 +1,24 @@
 package com.github.chdiazguerra.finalreality.controller.phases;
 
 import com.github.chdiazguerra.finalreality.model.character.ICharacter;
+import com.github.chdiazguerra.finalreality.model.character.player.IPlayerCharacter;
 
 
 public class SelectTargetPhase extends Phase{
 
 
     @Override
-    public void attackPlayer(int indexPlayer) {
+    public void attackPlayer(IPlayerCharacter playerCharacter) {
         toEndTurnPhase();
-        ICharacter attacked = (ICharacter) controller.getPlayerCharacter(indexPlayer);
+        ICharacter attacked = (ICharacter) playerCharacter;
         int initialLife = controller.getCharacterLife(attacked);
-        controller.attackToPlayer(controller.getCharacterTurn(), indexPlayer);
+        controller.attackToPlayer(controller.getCharacterTurn(), attacked);
         int newLife = controller.getCharacterLife(attacked);
         int lifeDifference = initialLife - newLife;
         controller.getScene().attackInfo(controller.getCharacterName(controller.getCharacterTurn()),
                 lifeDifference,
                 controller.getCharacterName(attacked));
-        controller.getScene().refreshInfoColumn(indexPlayer);
+        controller.getScene().refreshInfoColumn(controller.getAllPlayerCharacters().indexOf(attacked));
     }
 
     @Override

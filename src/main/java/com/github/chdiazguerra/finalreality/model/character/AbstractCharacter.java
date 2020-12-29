@@ -47,8 +47,10 @@ public abstract class AbstractCharacter implements ICharacter {
    * Adds this character to the turns queue.
    */
   protected void addToQueue() {
-    turnsQueue.add(this);
-    addedToQueueEvent.firePropertyChange("CHARACTER_ADDED_TO_QUEUE", null, this);
+    if(getIsAlive()) {
+      turnsQueue.add(this);
+      addedToQueueEvent.firePropertyChange("CHARACTER_ADDED_TO_QUEUE", null, this);
+    }
     scheduledExecutor.shutdown();
   }
 
