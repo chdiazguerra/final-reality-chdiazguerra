@@ -11,8 +11,11 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import javax.sound.sampled.*;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +34,8 @@ public class BattleScene {
     private List<Label> infoLabels;
 
     private Button waitingNext;
+
+    private Clip backgroundSound, victorySound, lostSound;
 
     public BattleScene(int width, int height, String pathFiles, Stage primaryStage, GameController controller, List<ImageView> playerImages){
         this.width = width;
@@ -77,7 +82,7 @@ public class BattleScene {
             ImageView imageEnemy = new ImageView(new Image(new FileInputStream(PATH + "Enemy.gif")));
             Button newEnemyButton = new Button();
             newEnemyButton.setGraphic(imageEnemy);
-            newEnemyButton.setOnAction(event -> {controller.tryAttackEnemy(indexEnemy);});
+            newEnemyButton.setOnAction(event -> controller.tryAttackEnemy(indexEnemy));
             enemies.add(newEnemyButton);
         }
 
@@ -100,8 +105,6 @@ public class BattleScene {
 
         setInfoColumn();
 
-        //begin();
-
         Label text = new Label("The Battle Begins...");
         text.setTextFill(Color.WHITE);
 
@@ -112,6 +115,8 @@ public class BattleScene {
         bottomHBox.getChildren().addAll(text, waitingNext);
 
         controller.initialize();
+
+        playInitBattleSound();
 
         return scene;
     }
@@ -191,11 +196,12 @@ public class BattleScene {
 
     public void attackInfo(String attackingName, int damage, String attackedName){
         bottomHBox.getChildren().clear();
+        playDamageSound();
         Label text = new Label(attackingName + " did " + damage + " to " + attackedName);
         text.setTextFill(Color.WHITE);
 
         Button next = new Button("Next");
-        next.setOnAction(event -> { controller.next();});
+        next.setOnAction(event -> controller.next());
 
         bottomHBox.getChildren().addAll(text, next);
 
@@ -221,14 +227,14 @@ public class BattleScene {
             int indexWeapon = i;
             Button button = new Button(controller.weaponInfo(controller.getInventoryWeapon(i)));
             button.setPrefWidth(200);
-            button.setOnAction(event -> {controller.tryToEquipWeapon(indexWeapon);});
+            button.setOnAction(event -> controller.tryToEquipWeapon(indexWeapon));
             firstColumn.getChildren().add(button);
         }
         for (int i = 5; i < 9; i++) {
             int indexWeapon = i;
             Button button = new Button(controller.weaponInfo(controller.getInventoryWeapon(i)));
             button.setPrefWidth(200);
-            button.setOnAction(event -> {controller.tryToEquipWeapon(indexWeapon);});
+            button.setOnAction(event -> controller.tryToEquipWeapon(indexWeapon));
             secondColumn.getChildren().add(button);
         }
 
@@ -263,21 +269,25 @@ public class BattleScene {
     }
 
     public void winGame(){
+        backgroundSound.stop();
         bottomHBox.getChildren().clear();
+        playVictorySound();
         Label text = new Label("No enemies left. Congratulations. You Win!!");
         text.setTextFill(Color.WHITE);
         Button next = new Button("Next");
-        next.setOnAction(event -> new GameOverScene(width, height, playerColumn, infoColumn, primaryStage));
+        next.setOnAction(event -> {victorySound.stop(); new GameOverScene(width, height, playerColumn, infoColumn, primaryStage, PATH);});
 
         bottomHBox.getChildren().addAll(text, next);
     }
 
     public void lostGame(){
+        backgroundSound.stop();
         bottomHBox.getChildren().clear();
+        playLostSound();
         Label text = new Label("No party characters left. You lost :(");
         text.setTextFill(Color.WHITE);
         Button next = new Button("Next");
-        next.setOnAction(event -> new GameOverScene(width, height, playerColumn, infoColumn, primaryStage));
+        next.setOnAction(event -> {lostSound.stop(); new GameOverScene(width, height, playerColumn, infoColumn, primaryStage, PATH);});
 
         bottomHBox.getChildren().addAll(text, next);
     }
@@ -285,5 +295,80 @@ public class BattleScene {
     public void refreshWaitingNext(){
         waitingNext.setDisable(false);
     }
+
+    private void playBattleSound() {
+        String audioFilePath = PATH + "Sounds/Battle.wav";
+        try {
+            backgroundSound = AudioSystem.getClip();
+            try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+                    new File(audioFilePath))) {
+                backgroundSound.open(audioInputStream);
+                backgroundSound.loop(Clip.LOOP_CONTINUOUSLY);
+                backgroundSound.start();
+            }
+        } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void playInitBattleSound() {
+        String audioFilePath = PATH + "Sounds/InitBattle.wav";
+        try {
+            Clip initBattleSound = AudioSystem.getClip();
+            try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+                    new File(audioFilePath))) {
+                initBattleSound.open(audioInputStream);
+                initBattleSound.start();
+                initBattleSound.addLineListener(event -> {if(event.getType()==LineEvent.Type.STOP){
+                playBattleSound();}
+                });
+            }
+        } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void playDamageSound() {
+        String audioFilePath = PATH + "Sounds/Damage.wav";
+        try {
+            Clip damageSound = AudioSystem.getClip();
+            try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+                    new File(audioFilePath))) {
+                damageSound.open(audioInputStream);
+                damageSound.start();
+            }
+        } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void playVictorySound() {
+        String audioFilePath = PATH + "Sounds/Victory.wav";
+        try {
+            victorySound = AudioSystem.getClip();
+            try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+                    new File(audioFilePath))) {
+                victorySound.open(audioInputStream);
+                victorySound.start();
+            }
+        } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void playLostSound() {
+        String audioFilePath = PATH + "Sounds/Lost.wav";
+        try {
+            lostSound = AudioSystem.getClip();
+            try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+                    new File(audioFilePath))) {
+                lostSound.open(audioInputStream);
+                lostSound.start();
+            }
+        } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

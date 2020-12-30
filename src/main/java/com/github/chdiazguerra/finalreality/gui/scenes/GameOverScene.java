@@ -10,16 +10,22 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import javax.sound.sampled.*;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class GameOverScene {
-    VBox root;
-    HBox playerCharacters;
-    Label info;
-    Button playAgain, close;
+    private VBox root;
+    private HBox playerCharacters;
+    private Label info;
+    private Button playAgain, close;
+    private String PATH;
+    private Clip endingSound;
 
 
-    public GameOverScene(int width, int height, VBox playerColumn, VBox infoColumn, Stage primaryStage){
+    public GameOverScene(int width, int height, VBox playerColumn, VBox infoColumn, Stage primaryStage, String pathFiles){
+        this.PATH = pathFiles;
         root = new VBox(5);
         root.setBackground(new Background(new BackgroundFill(Color.BLACK,
                 CornerRadii.EMPTY,
@@ -30,7 +36,7 @@ public class GameOverScene {
         info = new Label("Thanks for playing.");
         info.setTextFill(Color.WHITE);
         playAgain = new Button("Play Again");
-        playAgain.setOnAction(event -> {
+        playAgain.setOnAction(event -> {endingSound.stop();
             try {
                 new FinalReality().start(primaryStage);
             } catch (FileNotFoundException e) {
@@ -48,5 +54,21 @@ public class GameOverScene {
         Scene scene = new Scene(root, width, height);
 
         primaryStage.setScene(scene);
+
+        playEndingSound();
+    }
+
+    private void playEndingSound() {
+        String audioFilePath = PATH + "Sounds/Ending.wav";
+        try {
+            endingSound = AudioSystem.getClip();
+            try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+                    new File(audioFilePath))) {
+                endingSound.open(audioInputStream);
+                endingSound.start();
+            }
+        } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
+            e.printStackTrace();
+        }
     }
 }

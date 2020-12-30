@@ -14,8 +14,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import javax.sound.sampled.*;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -32,6 +35,8 @@ public class InitScene {
     private HBox firstBox, secondBox, thirdBox, fourthBox, enemyBox;
     private int width, height;
     private List<ImageView> playerImages;
+
+    private Clip backgroundSound;
 
 
     public InitScene(int width, int height, String pathFiles, Stage primaryStage, GameController controller){
@@ -71,7 +76,7 @@ public class InitScene {
         enemyLabel.setTextFill(Color.WHITE);
         Spinner<Integer> numberEnemies = new Spinner<>(1,7,4, 1);
         Button enemyAccept = new Button("Accept");
-        enemyAccept.setOnAction(event -> {acceptEnemy(numberEnemies.getValue()); numberEnemies.setDisable(true); enemyAccept.setDisable(true); totalAccepted++;});
+        enemyAccept.setOnAction(event -> {acceptEnemy(numberEnemies.getValue()); numberEnemies.setDisable(true); enemyAccept.setDisable(true); totalAccepted++; playMoveSound();});
         enemyBox.setSpacing(5);
         enemyBox.getChildren().addAll(imageEnemy, enemyLabel, numberEnemies, enemyAccept);
 
@@ -96,6 +101,8 @@ public class InitScene {
 
         root.getChildren().addAll(finalNext);
 
+        playPreludeSound();
+
 
         return scene;
     }
@@ -112,6 +119,7 @@ public class InitScene {
             try {
                 box.getChildren().clear();
                 thiefBox(box);
+                playMoveSound();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -122,7 +130,7 @@ public class InitScene {
         Button accept = new Button("Accept");
         accept.setOnAction(event -> {accept(box); controller.createEngineer(name.getText(),
                 rng.nextInt(20)+50,
-                rng.nextInt(2)+5); totalAccepted++; playerImages.add(image);});
+                rng.nextInt(2)+5); totalAccepted++; playerImages.add(image); playMoveSound();});
 
         box.getChildren().addAll(image, classCharacter, next, name, accept);
     }
@@ -138,6 +146,7 @@ public class InitScene {
             try {
                 box.getChildren().clear();
                 whiteMageBox(box);
+                playMoveSound();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -148,7 +157,7 @@ public class InitScene {
         Button accept = new Button("Accept");
         accept.setOnAction(event -> {accept(box);controller.createThief(name.getText(),
                 rng.nextInt(20)+50,
-                rng.nextInt(3)+2); totalAccepted++; playerImages.add(image);});
+                rng.nextInt(3)+2); totalAccepted++; playerImages.add(image); playMoveSound();});
 
         box.getChildren().addAll(image, classCharacter, next, name, accept);
 
@@ -164,6 +173,7 @@ public class InitScene {
             try {
                 box.getChildren().clear();
                 blackMageBox(box);
+                playMoveSound();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -174,7 +184,7 @@ public class InitScene {
         Button accept = new Button("Accept");
         accept.setOnAction(event -> {accept(box);controller.createWhiteMage(name.getText(),
                 rng.nextInt(20)+50,
-                rng.nextInt(4)+1); totalAccepted++; playerImages.add(image);});
+                rng.nextInt(4)+1); totalAccepted++; playerImages.add(image); playMoveSound();});
 
         box.getChildren().addAll(image, classCharacter, next, name, accept);
 
@@ -190,6 +200,7 @@ public class InitScene {
             try {
                 box.getChildren().clear();
                 engineerBox(box);
+                playMoveSound();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -200,7 +211,7 @@ public class InitScene {
         Button accept = new Button("Accept");
         accept.setOnAction(event -> {accept(box);controller.createBlackMage(name.getText(),
                 rng.nextInt(20)+50,
-                rng.nextInt(4)+1); totalAccepted++; playerImages.add(image);});
+                rng.nextInt(4)+1); totalAccepted++; playerImages.add(image); playMoveSound();});
 
         box.getChildren().addAll(image, classCharacter, next, name, accept);
 
@@ -216,6 +227,7 @@ public class InitScene {
             try {
                 box.getChildren().clear();
                 knightBox(box);
+                playMoveSound();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -226,7 +238,7 @@ public class InitScene {
         Button accept = new Button("Accept");
         accept.setOnAction(event -> {accept(box); controller.createEngineer(name.getText(),
                 rng.nextInt(20)+50,
-                rng.nextInt(5)+2); totalAccepted++; playerImages.add(image);});
+                rng.nextInt(5)+2); totalAccepted++; playerImages.add(image); playMoveSound();});
 
         box.getChildren().addAll(image, classCharacter, next, name, accept);
 
@@ -250,7 +262,38 @@ public class InitScene {
 
     private void next() throws FileNotFoundException {
         if(totalAccepted==5){
+            playMoveSound();
+            backgroundSound.stop();
             primaryStage.setScene(new BattleScene(width, height, PATH, primaryStage, controller, playerImages).build());
+        }
+    }
+
+    private void playPreludeSound() {
+        String audioFilePath = PATH + "Sounds/Prelude.wav";
+        try {
+            backgroundSound = AudioSystem.getClip();
+            try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+                    new File(audioFilePath))) {
+                backgroundSound.open(audioInputStream);
+                backgroundSound.loop(Clip.LOOP_CONTINUOUSLY);
+                backgroundSound.start();
+            }
+        } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void playMoveSound(){
+        String audioFilePath = PATH + "Sounds/Move.wav";
+        try {
+            Clip moveSound = AudioSystem.getClip();
+            try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+                    new File(audioFilePath))) {
+                moveSound.open(audioInputStream);
+                moveSound.start();
+            }
+        } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
+            e.printStackTrace();
         }
     }
 }
