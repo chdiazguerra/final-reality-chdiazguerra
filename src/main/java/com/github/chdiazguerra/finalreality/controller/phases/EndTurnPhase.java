@@ -6,11 +6,12 @@ public class EndTurnPhase extends Phase{
     @Override
     public void next() {
         if(controller.queueIsEmpty()){
-            controller.getScene().waitingText();
+            controller.waitingScene();
             toWaitingQueuePhase();
         }else {
+            toBeginTurnPhase();
             controller.beginTurn();
-            controller.toTurnBox();
+            controller.turnBoxScene();
         }
     }
 }

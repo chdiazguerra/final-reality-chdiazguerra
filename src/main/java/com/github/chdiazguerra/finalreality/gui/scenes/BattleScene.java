@@ -1,6 +1,7 @@
 package com.github.chdiazguerra.finalreality.gui.scenes;
 
 import com.github.chdiazguerra.finalreality.controller.GameController;
+import javafx.animation.FadeTransition;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import javax.sound.sampled.*;
 import java.io.File;
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class BattleScene {
+public class BattleScene implements IBattleScene{
 
     private final String PATH;
     private final GameController controller;
@@ -134,6 +136,7 @@ public class BattleScene {
         }
     }
 
+    @Override
     public void refreshEnemyColumns(int indexEnemy){
         if(controller.isEnemyDead(indexEnemy)) {
             enemies.get(indexEnemy).setDisable(true);
@@ -147,7 +150,14 @@ public class BattleScene {
         }
     }
 
+    @Override
     public void refreshInfoColumn(int indexPlayer){
+        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(0.2), infoLabels.get(indexPlayer));
+        fadeTransition.setFromValue(1);
+        fadeTransition.setToValue(0);
+        fadeTransition.setCycleCount(2);
+        fadeTransition.setAutoReverse(true);
+        fadeTransition.play();
         String info = controller.getPlayerCharacterInfo(indexPlayer);
         infoLabels.get(indexPlayer).setText(info);
         if(controller.isPlayerDead(indexPlayer)) {
@@ -156,6 +166,7 @@ public class BattleScene {
     }
 
 
+    @Override
     public void waitingText() {
         bottomHBox.getChildren().clear();
         waitingNext.setDisable(true);
@@ -166,6 +177,7 @@ public class BattleScene {
     }
 
 
+    @Override
     public void playerTurnBox(){
         bottomHBox.getChildren().clear();
         VBox box = new VBox(5);
@@ -183,6 +195,7 @@ public class BattleScene {
         bottomHBox.getChildren().add(box);
     }
 
+    @Override
     public void selectTargetText(){
         bottomHBox.getChildren().clear();
         Label text = new Label("Select the Target");
@@ -194,6 +207,7 @@ public class BattleScene {
         bottomHBox.getChildren().addAll(text, back);
     }
 
+    @Override
     public void attackInfo(String attackingName, int damage, String attackedName){
         bottomHBox.getChildren().clear();
         playDamageSound();
@@ -207,6 +221,7 @@ public class BattleScene {
 
     }
 
+    @Override
     public void inventoryBox() {
         bottomHBox.getChildren().clear();
         VBox currentWeapon = new VBox(5);
@@ -248,6 +263,7 @@ public class BattleScene {
     }
 
 
+    @Override
     public void turnBox() {
         bottomHBox.getChildren().clear();
         Label text = new Label("Turn of " + controller.getCharacterName(controller.getCharacterTurn()));
@@ -259,6 +275,7 @@ public class BattleScene {
     }
 
 
+    @Override
     public void enemyChoosing(){
         bottomHBox.getChildren().clear();
         Label text = new Label(controller.getCharacterName(controller.getCharacterTurn()) + " is choosing action");
@@ -268,6 +285,7 @@ public class BattleScene {
         bottomHBox.getChildren().addAll(text, next);
     }
 
+    @Override
     public void winGame(){
         backgroundSound.stop();
         bottomHBox.getChildren().clear();
@@ -280,6 +298,7 @@ public class BattleScene {
         bottomHBox.getChildren().addAll(text, next);
     }
 
+    @Override
     public void lostGame(){
         backgroundSound.stop();
         bottomHBox.getChildren().clear();
@@ -292,6 +311,7 @@ public class BattleScene {
         bottomHBox.getChildren().addAll(text, next);
     }
 
+    @Override
     public void refreshWaitingNext(){
         waitingNext.setDisable(false);
     }

@@ -16,7 +16,7 @@ public class SelectWeaponPhase extends Phase{
     public void equipWeapon(int indexWeapon) {
         IPlayerCharacter character = (IPlayerCharacter)controller.getCharacterTurn();
         controller.equipWeaponFromInventory(indexWeapon, character);
-        controller.getScene().inventoryBox();
+        controller.inventoryScene();
     }
 
 

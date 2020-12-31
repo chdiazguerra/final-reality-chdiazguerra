@@ -5,6 +5,6 @@ public class WinGamePhase extends Phase{
 
     @Override
     public void next() {
-        controller.getScene().winGame();
+        controller.winScene();
     }
 }

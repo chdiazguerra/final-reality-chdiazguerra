@@ -17,6 +17,7 @@ public abstract class Phase {
 
     protected void toEndTurnPhase(){
         changePhase(new EndTurnPhase());
+        controller.removeFirstInQueue();
         controller.waitTurnActualCharacter();
     }
 
@@ -40,42 +41,50 @@ public abstract class Phase {
         changePhase(new SelectWeaponPhase());
     }
 
+    protected void toBeginTurnPhase(){
+        changePhase(new BeginTurnPhase());
+    }
+
 
     public void characterAdded(){
-
+        //do nothing
     }
 
 
-    public void next() {
+    public void next() throws InvalidMovementException {
+        throw new InvalidMovementException("Can't go next on "+ this.toString());
 
     }
 
-    public void attackPlayer(IPlayerCharacter playerCharacter) {
-
+    public void attackPlayer(IPlayerCharacter playerCharacter) throws InvalidMovementException {
+        throw new InvalidMovementException("Can't attack player on " + this.toString());
     }
 
-    public void back() {
-
+    public void back() throws InvalidMovementException {
+        throw new InvalidMovementException("Can't go back on" + this.toString());
     }
 
-    public void attack(){
-
+    public void attack() throws InvalidMovementException {
+        throw new InvalidMovementException("Can't attack on " + this.toString());
     }
 
-    public void attackEnemy(int indexEnemy) {
+    public void attackEnemy(int indexEnemy) throws InvalidMovementException {
+        throw new InvalidMovementException("Can't attack enemy on " + this.toString());
     }
 
-    public void toInventory() {
-
+    public void toInventory() throws InvalidMovementException {
+        throw new InvalidMovementException("Can't go to inventory on " + this.toString());
     }
 
-    public void toPlayerTurn() {
+    public void toPlayerTurn() throws InvalidMovementException {
+        throw new InvalidMovementException("Can't go to player turn on " + this.toString());
     }
 
-    public void toEnemyTurn() {
+    public void toEnemyTurn() throws InvalidMovementException {
+        throw new InvalidMovementException("Can't go to enemy turn on " + this.toString());
     }
 
-    public void equipWeapon(int indexWeapon) {
-
+    public void equipWeapon(int indexWeapon) throws InvalidMovementException {
+        throw new InvalidMovementException("Can't equip weapon on " + this.toString());
     }
 }

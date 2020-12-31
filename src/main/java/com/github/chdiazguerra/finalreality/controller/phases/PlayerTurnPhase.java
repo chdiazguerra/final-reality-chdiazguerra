@@ -5,7 +5,7 @@ public class PlayerTurnPhase extends Phase{
 
     @Override
     public void next() {
-        controller.getScene().playerTurnBox();
+        controller.playerTurnScene();
     }
 
     @Override

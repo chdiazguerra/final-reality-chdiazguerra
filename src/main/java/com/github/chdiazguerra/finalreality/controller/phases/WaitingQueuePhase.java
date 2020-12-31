@@ -5,6 +5,7 @@ public class WaitingQueuePhase extends Phase{
 
     @Override
     public void characterAdded() {
+        toBeginTurnPhase();
         controller.beginTurn();
     }
 }

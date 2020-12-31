@@ -3,6 +3,7 @@ package com.github.chdiazguerra.finalreality.controller;
 import com.github.chdiazguerra.finalreality.controller.handlers.*;
 import com.github.chdiazguerra.finalreality.controller.phases.*;
 import com.github.chdiazguerra.finalreality.gui.scenes.BattleScene;
+import com.github.chdiazguerra.finalreality.gui.scenes.IBattleScene;
 import com.github.chdiazguerra.finalreality.model.character.Enemy;
 import com.github.chdiazguerra.finalreality.model.character.ICharacter;
 import com.github.chdiazguerra.finalreality.model.character.player.IPlayerCharacter;
@@ -25,6 +26,7 @@ public class GameController {
     private final IHandler deadPlayerCharacterHandler = new DeadPlayerCharacterHandler(this);
     private final IHandler deadEnemyHandler = new DeadEnemyHandler(this);
     private final IHandler characterAddedToQueue = new CharacterAddedToQueue(this);
+    private final IHandler damageReceivedHandler = new DamageReceivedHandler(this);
 
     private Phase phase;
 
@@ -42,7 +44,9 @@ public class GameController {
 
     private Random rng;
 
-    public BattleScene scene;
+    public IBattleScene scene;
+
+    private int damageReceived;
 
     //For now, this is for the tests
     public boolean win = false;
@@ -69,6 +73,7 @@ public class GameController {
         BlackMage newPlayerCharacter = new BlackMage(name, turnsQueue, life, defense);
         newPlayerCharacter.addDeadListener(deadPlayerCharacterHandler);
         newPlayerCharacter.addAddedToQueueListener(characterAddedToQueue);
+        newPlayerCharacter.addDamageReceivedListener(damageReceivedHandler);
         createStaff("Init Staff", 0, 0);
         equipWeaponFromInventory(inventory.size()-1, newPlayerCharacter);
         playerCharacters.add(newPlayerCharacter);
@@ -82,6 +87,7 @@ public class GameController {
         Engineer newPlayerCharacter = new Engineer(name, turnsQueue, life, defense);
         newPlayerCharacter.addDeadListener(deadPlayerCharacterHandler);
         newPlayerCharacter.addAddedToQueueListener(characterAddedToQueue);
+        newPlayerCharacter.addDamageReceivedListener(damageReceivedHandler);
         createAxe("Init Axe", 0, 0);
         equipWeaponFromInventory(inventory.size()-1, newPlayerCharacter);
         playerCharacters.add(newPlayerCharacter);
@@ -95,6 +101,7 @@ public class GameController {
         Knight newPlayerCharacter = new Knight(name, turnsQueue, life, defense);
         newPlayerCharacter.addDeadListener(deadPlayerCharacterHandler);
         newPlayerCharacter.addAddedToQueueListener(characterAddedToQueue);
+        newPlayerCharacter.addDamageReceivedListener(damageReceivedHandler);
         createSword("Init Sword", 0, 0);
         equipWeaponFromInventory(inventory.size()-1, newPlayerCharacter);
         playerCharacters.add(newPlayerCharacter);
@@ -108,6 +115,7 @@ public class GameController {
         Thief newPlayerCharacter = new Thief(name, turnsQueue, life, defense);
         newPlayerCharacter.addDeadListener(deadPlayerCharacterHandler);
         newPlayerCharacter.addAddedToQueueListener(characterAddedToQueue);
+        newPlayerCharacter.addDamageReceivedListener(damageReceivedHandler);
         createBow("Init Bow", 0, 0);
         equipWeaponFromInventory(inventory.size()-1, newPlayerCharacter);
         playerCharacters.add(newPlayerCharacter);
@@ -121,6 +129,7 @@ public class GameController {
         WhiteMage newPlayerCharacter = new WhiteMage(name, turnsQueue, life, defense);
         newPlayerCharacter.addDeadListener(deadPlayerCharacterHandler);
         newPlayerCharacter.addAddedToQueueListener(characterAddedToQueue);
+        newPlayerCharacter.addDamageReceivedListener(damageReceivedHandler);
         createStaff("Init Staff", 0, 0);
         equipWeaponFromInventory(inventory.size()-1, newPlayerCharacter);
         playerCharacters.add(newPlayerCharacter);
@@ -147,6 +156,7 @@ public class GameController {
         Enemy newEnemy = new Enemy(name, weight, turnsQueue, life, defense, attack);
         newEnemy.addDeadListener(deadEnemyHandler);
         newEnemy.addAddedToQueueListener(characterAddedToQueue);
+        newEnemy.addDamageReceivedListener(damageReceivedHandler);
         enemies.add(newEnemy);
     }
 
@@ -326,12 +336,19 @@ public class GameController {
      * Begins the turn of the first character in the queue
      */
     public void beginTurn(){
-        setPhase(new BeginTurnPhase());
-        characterTurn = turnsQueue.poll();
+        characterTurn = turnsQueue.peek();
         if(playerCharacters.contains(characterTurn)){
-            phase.toPlayerTurn();
+            try {
+                phase.toPlayerTurn();
+            } catch (InvalidMovementException e) {
+                e.printStackTrace();
+            }
         }else{
-            phase.toEnemyTurn();
+            try {
+                phase.toEnemyTurn();
+            } catch (InvalidMovementException e) {
+                e.printStackTrace();
+            }
         }
         scene.refreshWaitingNext();
     }
@@ -389,12 +406,8 @@ public class GameController {
         return String.join(" ", getWeaponInfo(weapon));
     }
 
-    public void setScene(BattleScene scene){
+    public void setScene(IBattleScene scene){
         this.scene = scene;
-    }
-
-    public BattleScene getScene(){
-        return scene;
     }
 
     public void initialize(){
@@ -416,41 +429,114 @@ public class GameController {
         phase.characterAdded();
     }
 
-    public void toTurnBox(){
-        scene.turnBox();
-    }
-
 
     public void tryAttackEnemy(int indexEnemy) {
-        phase.attackEnemy(indexEnemy);
+        try {
+            phase.attackEnemy(indexEnemy);
+        } catch (InvalidMovementException e) {
+            e.printStackTrace();
+        }
     }
 
     public void next(){
-        phase.next();
+        try {
+            phase.next();
+        } catch (InvalidMovementException e) {
+            e.printStackTrace();
+        }
     }
 
     public void tryAttackPlayer() {
-        phase.attackPlayer(alivePlayerCharacters.get(rng.nextInt(alivePlayerCharacters.size())));
+        try {
+            phase.attackPlayer(alivePlayerCharacters.get(rng.nextInt(alivePlayerCharacters.size())));
+        } catch (InvalidMovementException e) {
+            e.printStackTrace();
+        }
     }
 
     public void back() {
-        phase.back();
+        try {
+            phase.back();
+        } catch (InvalidMovementException e) {
+            e.printStackTrace();
+        }
     }
 
     public void attack() {
-        phase.attack();
+        try {
+            phase.attack();
+        } catch (InvalidMovementException e) {
+            e.printStackTrace();
+        }
     }
 
     public void toInventory() {
-        phase.toInventory();
+        try {
+            phase.toInventory();
+        } catch (InvalidMovementException e) {
+            e.printStackTrace();
+        }
     }
 
 
     public void tryToEquipWeapon(int indexWeapon) {
-        phase.equipWeapon(indexWeapon);
+        try {
+            phase.equipWeapon(indexWeapon);
+        } catch (InvalidMovementException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeFirstInQueue(){
+        turnsQueue.poll();
     }
 
     public void waitTurnActualCharacter(){
         characterTurn.waitTurn();
     }
+
+    public void turnBoxScene(){
+        scene.turnBox();
+    }
+
+    public void attackInfoScene(ICharacter attacked){
+        scene.attackInfo(getCharacterName(characterTurn), damageReceived, getCharacterName(attacked));
+    }
+
+    public void refreshInfoColumnScene(ICharacter attacked){
+        scene.refreshInfoColumn(playerCharacters.indexOf(attacked));
+    }
+
+    public void refreshEnemyColumnsScene(int indexEnemy){
+        scene.refreshEnemyColumns(indexEnemy);
+    }
+
+    public void waitingScene(){
+        scene.waitingText();
+    }
+
+    public void enemyChoosingScene(){
+        scene.enemyChoosing();
+    }
+
+    public void lostScene(){
+        scene.lostGame();
+    }
+
+    public void winScene(){
+        scene.winGame();
+    }
+
+    public void playerTurnScene(){
+        scene.playerTurnBox();
+    }
+
+    public void inventoryScene(){
+        scene.inventoryBox();
+    }
+
+    public void setDamageReceived(int damageReceived){
+        this.damageReceived = damageReceived;
+    }
+
 }
