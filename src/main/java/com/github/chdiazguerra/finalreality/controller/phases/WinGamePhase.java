@@ -7,4 +7,9 @@ public class WinGamePhase extends Phase{
     public void next() {
         controller.winScene();
     }
+
+    @Override
+    public boolean isWon(){
+        return true;
+    }
 }

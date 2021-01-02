@@ -14,4 +14,9 @@ public class EndTurnPhase extends Phase{
             controller.turnBoxScene();
         }
     }
+
+    @Override
+    public boolean isEndTurn(){
+        return true;
+    }
 }

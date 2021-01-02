@@ -8,4 +8,9 @@ public class WaitingQueuePhase extends Phase{
         toBeginTurnPhase();
         controller.beginTurn();
     }
+
+    @Override
+    public boolean isWaiting(){
+        return true;
+    }
 }

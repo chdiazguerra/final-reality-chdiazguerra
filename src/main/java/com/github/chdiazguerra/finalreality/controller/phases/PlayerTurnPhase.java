@@ -17,4 +17,9 @@ public class PlayerTurnPhase extends Phase{
     public void toInventory() {
         toSelectWeaponPhase();
     }
+
+    @Override
+    public boolean isPlayerTurn(){
+        return true;
+    }
 }

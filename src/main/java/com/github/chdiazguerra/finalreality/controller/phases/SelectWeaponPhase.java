@@ -19,5 +19,10 @@ public class SelectWeaponPhase extends Phase{
         controller.inventoryScene();
     }
 
+    @Override
+    public boolean isSelectingWeapon(){
+        return true;
+    }
+
 
 }

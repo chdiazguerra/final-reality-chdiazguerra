@@ -7,52 +7,52 @@ import org.jetbrains.annotations.NotNull;
 public abstract class Phase {
     protected GameController controller;
 
-    public void setController(final @NotNull GameController controller){
+    public void setController(final @NotNull GameController controller) {
         this.controller = controller;
     }
 
-    protected void changePhase(Phase phase){
+    protected void changePhase(Phase phase) {
         controller.setPhase(phase);
     }
 
-    protected void toEndTurnPhase(){
+    protected void toEndTurnPhase() {
         changePhase(new EndTurnPhase());
         controller.removeFirstInQueue();
         controller.waitTurnActualCharacter();
     }
 
-    protected void toEnemyTurnPhase(){
+    protected void toEnemyTurnPhase() {
         changePhase(new EnemyTurnPhase());
     }
 
-    protected void toPlayerTurnPhase(){
+    protected void toPlayerTurnPhase() {
         changePhase(new PlayerTurnPhase());
     }
 
-    protected void toSelectTargetPhase(){
+    protected void toSelectTargetPhase() {
         changePhase(new SelectTargetPhase());
     }
 
-    protected void toWaitingQueuePhase(){
+    protected void toWaitingQueuePhase() {
         changePhase(new WaitingQueuePhase());
     }
 
-    protected void toSelectWeaponPhase(){
+    protected void toSelectWeaponPhase() {
         changePhase(new SelectWeaponPhase());
     }
 
-    protected void toBeginTurnPhase(){
+    protected void toBeginTurnPhase() {
         changePhase(new BeginTurnPhase());
     }
 
 
-    public void characterAdded(){
+    public void characterAdded() {
         //do nothing
     }
 
 
     public void next() throws InvalidMovementException {
-        throw new InvalidMovementException("Can't go next on "+ this.toString());
+        throw new InvalidMovementException("Can't go next on " + this.toString());
 
     }
 
@@ -86,5 +86,37 @@ public abstract class Phase {
 
     public void equipWeapon(int indexWeapon) throws InvalidMovementException {
         throw new InvalidMovementException("Can't equip weapon on " + this.toString());
+    }
+
+    public boolean isPlayerTurn() {
+        return false;
+    }
+
+    public boolean isEnemyTurn(){
+        return false;
+    }
+
+    public boolean isSelectingWeapon(){
+        return false;
+    }
+
+    public boolean isSelectingTarget(){
+        return false;
+    }
+
+    public boolean isWaiting(){
+        return false;
+    }
+
+    public boolean isWon(){
+        return false;
+    }
+
+    public boolean isLost(){
+        return false;
+    }
+
+    public boolean isEndTurn(){
+        return false;
     }
 }

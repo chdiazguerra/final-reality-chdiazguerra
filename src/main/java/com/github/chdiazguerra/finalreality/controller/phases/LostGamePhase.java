@@ -5,4 +5,9 @@ public class LostGamePhase extends Phase{
     public void next() {
         controller.lostScene();
     }
+
+    @Override
+    public boolean isLost(){
+        return true;
+    }
 }

@@ -29,5 +29,10 @@ public class SelectTargetPhase extends Phase{
         controller.refreshEnemyColumnsScene(indexEnemy);
     }
 
+    @Override
+    public boolean isSelectingTarget(){
+        return true;
+    }
+
 
 }

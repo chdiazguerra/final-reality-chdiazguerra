@@ -8,4 +8,9 @@ public class EnemyTurnPhase extends Phase{
         toSelectTargetPhase();
         controller.enemyChoosingScene();
     }
+
+    @Override
+    public boolean isEnemyTurn(){
+        return true;
+    }
 }

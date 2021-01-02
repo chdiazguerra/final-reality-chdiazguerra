@@ -48,9 +48,6 @@ public class GameController {
 
     private int damageReceived;
 
-    //For now, this is for the tests
-    public boolean win = false;
-    public boolean lose = false;
 
     public GameController(){
         rng = new Random();
@@ -74,7 +71,7 @@ public class GameController {
         newPlayerCharacter.addDeadListener(deadPlayerCharacterHandler);
         newPlayerCharacter.addAddedToQueueListener(characterAddedToQueue);
         newPlayerCharacter.addDamageReceivedListener(damageReceivedHandler);
-        createStaff("Init Staff", 0, 0);
+        createStaff("Init Staff");
         equipWeaponFromInventory(inventory.size()-1, newPlayerCharacter);
         playerCharacters.add(newPlayerCharacter);
     }
@@ -88,13 +85,13 @@ public class GameController {
         newPlayerCharacter.addDeadListener(deadPlayerCharacterHandler);
         newPlayerCharacter.addAddedToQueueListener(characterAddedToQueue);
         newPlayerCharacter.addDamageReceivedListener(damageReceivedHandler);
-        createAxe("Init Axe", 0, 0);
+        createAxe("Init Axe");
         equipWeaponFromInventory(inventory.size()-1, newPlayerCharacter);
         playerCharacters.add(newPlayerCharacter);
     }
 
     /**
-     * Creates a new Kinght given the parameters, adding it to the list of player's characters.
+     * Creates a new Knight given the parameters, adding it to the list of player's characters.
      * Also, adds the listener for dead and the queue to the character.
      */
     public void createKnight(String name, int life, int defense){
@@ -102,7 +99,7 @@ public class GameController {
         newPlayerCharacter.addDeadListener(deadPlayerCharacterHandler);
         newPlayerCharacter.addAddedToQueueListener(characterAddedToQueue);
         newPlayerCharacter.addDamageReceivedListener(damageReceivedHandler);
-        createSword("Init Sword", 0, 0);
+        createSword("Init Sword");
         equipWeaponFromInventory(inventory.size()-1, newPlayerCharacter);
         playerCharacters.add(newPlayerCharacter);
     }
@@ -116,7 +113,7 @@ public class GameController {
         newPlayerCharacter.addDeadListener(deadPlayerCharacterHandler);
         newPlayerCharacter.addAddedToQueueListener(characterAddedToQueue);
         newPlayerCharacter.addDamageReceivedListener(damageReceivedHandler);
-        createBow("Init Bow", 0, 0);
+        createBow("Init Bow");
         equipWeaponFromInventory(inventory.size()-1, newPlayerCharacter);
         playerCharacters.add(newPlayerCharacter);
     }
@@ -130,7 +127,7 @@ public class GameController {
         newPlayerCharacter.addDeadListener(deadPlayerCharacterHandler);
         newPlayerCharacter.addAddedToQueueListener(characterAddedToQueue);
         newPlayerCharacter.addDamageReceivedListener(damageReceivedHandler);
-        createStaff("Init Staff", 0, 0);
+        createStaff("Init Staff");
         equipWeaponFromInventory(inventory.size()-1, newPlayerCharacter);
         playerCharacters.add(newPlayerCharacter);
     }
@@ -183,37 +180,37 @@ public class GameController {
     }
 
     /**
-     * Creates a new Axe, with damage between 8-17, weight between 15-30, and adds it to the inventory
+     * Creates a new Axe, with damage between 12-20, weight between 15-30, and adds it to the inventory
      */
-    public void createAxe(String name, int damage, int weight){
-        putWeapon(new Axe(name, rng.nextInt(9)+8, rng.nextInt(15)+25));
+    public void createAxe(String name){
+        putWeapon(new Axe(name, rng.nextInt(8)+12, rng.nextInt(15)+25));
     }
 
     /**
      * Creates a new Bow, with damage between 12-17, weight between 10-20, and adds it to the inventory
      */
-    public void createBow(String name, int damage, int weight){
+    public void createBow(String name){
         putWeapon(new Bow(name, rng.nextInt(5)+12, rng.nextInt(10)+20));
     }
 
     /**
      * Creates a new Knife, with damage between 8-15, weight between 5-15, and adds it to the inventory
      */
-    public void createKnife(String name, int damage, int weight){
+    public void createKnife(String name){
         putWeapon(new Knife(name, rng.nextInt(7)+8, rng.nextInt(10)+15));
     }
 
     /**
      * Creates a new Staff, with damage between 15-20, weight between 20-25, and adds it to the inventory
      */
-    public void createStaff(String name, int damage, int weight){
+    public void createStaff(String name){
         putWeapon(new Staff(name, rng.nextInt(5)+15, rng.nextInt(5)+30));
     }
 
     /**
      * Creates a new Sword, with damage between 10-17, weight between 15-25, and adds it to the inventory
      */
-    public void createSword(String name, int damage, int weight){
+    public void createSword(String name){
         putWeapon(new Sword(name, rng.nextInt(7)+10, rng.nextInt(10)+25));
     }
 
@@ -365,11 +362,11 @@ public class GameController {
     }
 
     private void createInventory(){
-        createAxe("Axe", 0 ,0);
-        createBow("Bow", 0, 0);
-        createKnife("Knife", 0,0);
-        createStaff("Staff", 0, 0);
-        createSword("Sword", 0, 0);
+        createAxe("Axe");
+        createBow("Bow");
+        createKnife("Knife");
+        createStaff("Staff");
+        createSword("Sword");
     }
 
 
@@ -413,7 +410,7 @@ public class GameController {
     public void initialize(){
         setPhase(new WaitingQueuePhase());
         alivePlayerCharacters.addAll(playerCharacters);
-        for(int i = 0; i<4; i++){
+        for(int i = 0; i<playerCharacters.size(); i++){
             ((ICharacter) playerCharacters.get(i)).waitTurn();
         }
         for(Enemy enemy: enemies){
@@ -538,5 +535,38 @@ public class GameController {
     public void setDamageReceived(int damageReceived){
         this.damageReceived = damageReceived;
     }
+
+    public boolean isPlayerTurn() {
+        return phase.isPlayerTurn();
+    }
+
+    public boolean isEnemyTurn(){
+        return phase.isEnemyTurn();
+    }
+
+    public boolean isSelectingWeapon(){
+        return phase.isSelectingWeapon();
+    }
+
+    public boolean isSelectingTarget(){
+        return phase.isSelectingTarget();
+    }
+
+    public boolean isWaiting(){
+        return phase.isWaiting();
+    }
+
+    public boolean isWon(){
+        return phase.isWon();
+    }
+
+    public boolean isLost(){
+        return phase.isLost();
+    }
+
+    public boolean isEndTurn(){
+        return phase.isEndTurn();
+    }
+
 
 }
