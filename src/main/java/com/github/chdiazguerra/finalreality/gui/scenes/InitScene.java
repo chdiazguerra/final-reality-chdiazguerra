@@ -36,6 +36,9 @@ public class InitScene {
     private int width, height;
     private List<ImageView> playerImages;
 
+    private List<String> namesUsed;
+    private Label info;
+
     private Clip backgroundSound;
 
 
@@ -46,6 +49,7 @@ public class InitScene {
         this.primaryStage = primaryStage;
         this.PATH = pathFiles;
         playerImages = new ArrayList<>();
+        namesUsed = new ArrayList<>();
     }
 
     public Scene build() throws FileNotFoundException {
@@ -61,7 +65,7 @@ public class InitScene {
 
         Label welcome = new Label("Welcome to Final Reality!\nSet your party and number of enemies.");
         welcome.setTextFill(Color.WHITE);
-        welcome.setFont(new Font("Arial", 20));
+        welcome.setFont(new Font("Arial", 15));
         root.getChildren().add(welcome);
 
         firstBox = new HBox(5);
@@ -99,7 +103,9 @@ public class InitScene {
         });
         finalNext.setPadding(new Insets(20));
 
-        root.getChildren().addAll(finalNext);
+        info = new Label();
+        info.setTextFill(Color.WHITE);
+        root.getChildren().addAll(finalNext, info);
 
         playPreludeSound();
 
@@ -128,9 +134,21 @@ public class InitScene {
         TextField name = new TextField();
 
         Button accept = new Button("Accept");
-        accept.setOnAction(event -> {accept(box); controller.createEngineer(name.getText(),
+        accept.setOnAction(event -> {
+            if(!namesUsed.contains(name.getText())){
+                accept(box);
+                controller.createEngineer(name.getText(),
                 rng.nextInt(20)+50,
-                rng.nextInt(2)+5); totalAccepted++; playerImages.add(image); playMoveSound();});
+                rng.nextInt(2)+5);
+                totalAccepted++;
+                playerImages.add(image);
+                namesUsed.add(name.getText());
+                info.setText("");
+            }else{
+                info.setText("Names cannot be repeated");
+            }
+            playMoveSound();
+        });
 
         box.getChildren().addAll(image, classCharacter, next, name, accept);
     }
@@ -155,11 +173,24 @@ public class InitScene {
         TextField name = new TextField();
 
         Button accept = new Button("Accept");
-        accept.setOnAction(event -> {accept(box);controller.createThief(name.getText(),
-                rng.nextInt(20)+50,
-                rng.nextInt(3)+2); totalAccepted++; playerImages.add(image); playMoveSound();});
+        accept.setOnAction(event -> {
+            if(!namesUsed.contains(name.getText())){
+                accept(box);
+                controller.createThief(name.getText(),
+                        rng.nextInt(20)+50,
+                        rng.nextInt(3)+2);
+                totalAccepted++;
+                playerImages.add(image);
+                namesUsed.add(name.getText());
+                info.setText("");
+            }else{
+                info.setText("Names cannot be repeated");
+            }
+            playMoveSound();
+        });
 
         box.getChildren().addAll(image, classCharacter, next, name, accept);
+
 
     }
 
@@ -182,11 +213,24 @@ public class InitScene {
         TextField name = new TextField();
 
         Button accept = new Button("Accept");
-        accept.setOnAction(event -> {accept(box);controller.createWhiteMage(name.getText(),
-                rng.nextInt(20)+50,
-                rng.nextInt(4)+1); totalAccepted++; playerImages.add(image); playMoveSound();});
+        accept.setOnAction(event -> {
+            if(!namesUsed.contains(name.getText())){
+                accept(box);
+                controller.createWhiteMage(name.getText(),
+                        rng.nextInt(20)+50,
+                        rng.nextInt(4)+1);
+                totalAccepted++;
+                playerImages.add(image);
+                namesUsed.add(name.getText());
+                info.setText("");
+            }else{
+                info.setText("Names cannot be repeated");
+            }
+            playMoveSound();
+        });
 
         box.getChildren().addAll(image, classCharacter, next, name, accept);
+
 
     }
 
@@ -209,11 +253,24 @@ public class InitScene {
         TextField name = new TextField();
 
         Button accept = new Button("Accept");
-        accept.setOnAction(event -> {accept(box);controller.createBlackMage(name.getText(),
-                rng.nextInt(20)+50,
-                rng.nextInt(4)+1); totalAccepted++; playerImages.add(image); playMoveSound();});
+        accept.setOnAction(event -> {
+            if(!namesUsed.contains(name.getText())){
+                accept(box);
+                controller.createBlackMage(name.getText(),
+                        rng.nextInt(20)+50,
+                        rng.nextInt(4)+1);
+                totalAccepted++;
+                playerImages.add(image);
+                namesUsed.add(name.getText());
+                info.setText("");
+            }else{
+                info.setText("Names cannot be repeated");
+            }
+            playMoveSound();
+        });
 
         box.getChildren().addAll(image, classCharacter, next, name, accept);
+
 
     }
 
@@ -236,11 +293,24 @@ public class InitScene {
         TextField name = new TextField();
 
         Button accept = new Button("Accept");
-        accept.setOnAction(event -> {accept(box); controller.createEngineer(name.getText(),
-                rng.nextInt(20)+50,
-                rng.nextInt(5)+2); totalAccepted++; playerImages.add(image); playMoveSound();});
+        accept.setOnAction(event -> {
+            if(!namesUsed.contains(name.getText())){
+                accept(box);
+                controller.createEngineer(name.getText(),
+                        rng.nextInt(20)+50,
+                        rng.nextInt(5)+2);
+                totalAccepted++;
+                playerImages.add(image);
+                namesUsed.add(name.getText());
+                info.setText("");
+            }else{
+                info.setText("Names cannot be repeated");
+            }
+            playMoveSound();
+        });
 
         box.getChildren().addAll(image, classCharacter, next, name, accept);
+
 
     }
 
@@ -262,10 +332,12 @@ public class InitScene {
 
     private void next() throws FileNotFoundException {
         if(totalAccepted==5){
-            playMoveSound();
             backgroundSound.stop();
             primaryStage.setScene(new BattleScene(width, height, PATH, primaryStage, controller, playerImages).build());
+        }else{
+            info.setText("You have to finish setting up the game");
         }
+        playMoveSound();
     }
 
     private void playPreludeSound() {

@@ -427,61 +427,33 @@ public class GameController {
     }
 
 
-    public void tryAttackEnemy(int indexEnemy) {
-        try {
-            phase.attackEnemy(indexEnemy);
-        } catch (InvalidMovementException e) {
-            e.printStackTrace();
-        }
+    public void tryAttackEnemy(int indexEnemy) throws InvalidMovementException {
+        phase.attackEnemy(indexEnemy);
     }
 
-    public void next(){
-        try {
-            phase.next();
-        } catch (InvalidMovementException e) {
-            e.printStackTrace();
-        }
+    public void next() throws InvalidMovementException {
+        phase.next();
     }
 
-    public void tryAttackPlayer() {
-        try {
-            phase.attackPlayer(alivePlayerCharacters.get(rng.nextInt(alivePlayerCharacters.size())));
-        } catch (InvalidMovementException e) {
-            e.printStackTrace();
-        }
+    public void tryAttackPlayer() throws InvalidMovementException {
+        phase.attackPlayer(alivePlayerCharacters.get(rng.nextInt(alivePlayerCharacters.size())));
     }
 
-    public void back() {
-        try {
-            phase.back();
-        } catch (InvalidMovementException e) {
-            e.printStackTrace();
-        }
+    public void back() throws InvalidMovementException {
+        phase.back();
     }
 
-    public void attack() {
-        try {
-            phase.attack();
-        } catch (InvalidMovementException e) {
-            e.printStackTrace();
-        }
+    public void attack() throws InvalidMovementException {
+        phase.attack();
     }
 
-    public void toInventory() {
-        try {
-            phase.toInventory();
-        } catch (InvalidMovementException e) {
-            e.printStackTrace();
-        }
+    public void toInventory() throws InvalidMovementException {
+        phase.toInventory();
     }
 
 
-    public void tryToEquipWeapon(int indexWeapon) {
-        try {
-            phase.equipWeapon(indexWeapon);
-        } catch (InvalidMovementException e) {
-            e.printStackTrace();
-        }
+    public void tryToEquipWeapon(int indexWeapon) throws InvalidMovementException {
+        phase.equipWeapon(indexWeapon);
     }
 
     public void removeFirstInQueue(){

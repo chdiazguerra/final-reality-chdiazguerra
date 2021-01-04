@@ -61,7 +61,7 @@ public abstract class Phase {
     }
 
     public void back() throws InvalidMovementException {
-        throw new InvalidMovementException("Can't go back on" + this.toString());
+        throw new InvalidMovementException("Can't go back on " + this.toString());
     }
 
     public void attack() throws InvalidMovementException {

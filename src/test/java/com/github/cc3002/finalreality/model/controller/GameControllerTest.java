@@ -149,7 +149,7 @@ public class GameControllerTest {
     }
 
     @Test
-    void winTest() throws InterruptedException {
+    void winTest() throws InterruptedException, InvalidMovementException {
         Axe weapon = new Axe("Axe", 20, 20);
         controller.createKnight(TEST_NAME, 50, 10);
         controller.getPlayerCharacter(0).equip(weapon);
@@ -190,7 +190,7 @@ public class GameControllerTest {
     }
 
     @Test
-    void lostTest() throws InterruptedException {
+    void lostTest() throws InterruptedException, InvalidMovementException {
         controller.createKnight(TEST_NAME, 10, 0);
         controller.createEnemy(TEST_NAME, 1, 20, 10, 30);
         controller.initialize();
@@ -208,7 +208,7 @@ public class GameControllerTest {
     }
 
     @Test
-    void playerOptionsTest() throws InterruptedException {
+    void playerOptionsTest() throws InterruptedException, InvalidMovementException {
         controller.createKnight(TEST_NAME, TEST_LIFE, TEST_DEFENSE);
         controller.createEnemy(TEST_NAME, 50, 30, TEST_DEFENSE, TEST_ATTACK);
         controller.initialize();
@@ -254,7 +254,7 @@ public class GameControllerTest {
     }
 
     @Test
-    void noWinNoLostTest() throws InterruptedException {
+    void noWinNoLostTest() throws InterruptedException, InvalidMovementException {
 
         controller.createEnemy(TEST_NAME, 5, 5, 0, 10);
         controller.createEnemy(TEST_NAME, 42, 5, 0, 10);
@@ -284,6 +284,49 @@ public class GameControllerTest {
         assertFalse(controller.isWon());
         assertFalse(controller.isLost());
 
+    }
+
+    @Test
+    void exceptionsTest() throws InterruptedException, InvalidMovementException {
+        controller.createThief(TEST_NAME, 50, 0);
+        controller.createEnemy(TEST_NAME, 5, 100, 0, 10);
+        controller.initialize();
+
+        assertTrue(controller.isWaiting());
+        Exception exception = assertThrows(InvalidMovementException.class, ()-> controller.tryAttackEnemy(0));
+        assertTrue(exception.getMessage().contains("Can't attack enemy on"));
+        exception = assertThrows(InvalidMovementException.class, ()-> controller.tryAttackPlayer());
+        assertTrue(exception.getMessage().contains("Can't attack player on "));
+        exception = assertThrows(InvalidMovementException.class, ()-> controller.attack());
+        assertTrue(exception.getMessage().contains("Can't attack on "));
+        exception = assertThrows(InvalidMovementException.class, ()-> controller.toInventory());
+        assertTrue(exception.getMessage().contains("Can't go to inventory on"));
+        Thread.sleep(2500);
+
+        assertTrue(controller.isEnemyTurn());
+        exception = assertThrows(InvalidMovementException.class, ()-> controller.tryAttackEnemy(0));
+        assertTrue(exception.getMessage().contains("Can't attack enemy on"));
+        exception = assertThrows(InvalidMovementException.class, ()-> controller.tryAttackPlayer());
+        assertTrue(exception.getMessage().contains("Can't attack player on "));
+        exception = assertThrows(InvalidMovementException.class, ()-> controller.back());
+        assertTrue(exception.getMessage().contains("Can't go back on "));
+        exception = assertThrows(InvalidMovementException.class, ()-> controller.tryToEquipWeapon(0));
+        assertTrue(exception.getMessage().contains("Can't equip weapon on "));
+
+        controller.next();
+        assertTrue(controller.isSelectingTarget());
+        exception = assertThrows(InvalidMovementException.class, ()-> controller.next());
+        assertTrue(exception.getMessage().contains("Can't go next on "));
+        exception = assertThrows(InvalidMovementException.class, ()-> controller.tryToEquipWeapon(0));
+        assertTrue(exception.getMessage().contains("Can't equip weapon on "));
+        controller.tryAttackPlayer();
+
+        assertTrue(controller.isEndTurn());
+        exception = assertThrows(InvalidMovementException.class, ()-> controller.tryAttackEnemy(0));
+        assertTrue(exception.getMessage().contains("Can't attack enemy on"));
+        controller.next();
+
+        assertTrue(controller.isPlayerTurn());
     }
 
 

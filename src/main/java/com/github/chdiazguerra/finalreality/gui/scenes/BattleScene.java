@@ -1,6 +1,7 @@
 package com.github.chdiazguerra.finalreality.gui.scenes;
 
 import com.github.chdiazguerra.finalreality.controller.GameController;
+import com.github.chdiazguerra.finalreality.controller.phases.InvalidMovementException;
 import javafx.animation.FadeTransition;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -84,7 +85,13 @@ public class BattleScene implements IBattleScene{
             ImageView imageEnemy = new ImageView(new Image(new FileInputStream(PATH + "Enemy.gif")));
             Button newEnemyButton = new Button();
             newEnemyButton.setGraphic(imageEnemy);
-            newEnemyButton.setOnAction(event -> controller.tryAttackEnemy(indexEnemy));
+            newEnemyButton.setOnAction(event -> {
+                try {
+                    controller.tryAttackEnemy(indexEnemy);
+                } catch (InvalidMovementException e) {
+                    e.printStackTrace();
+                }
+            });
             enemies.add(newEnemyButton);
         }
 
@@ -185,10 +192,22 @@ public class BattleScene implements IBattleScene{
         text.setTextFill(Color.WHITE);
 
         Button attack = new Button("Attack");
-        attack.setOnAction(event -> {selectTargetText(); controller.attack();});
+        attack.setOnAction(event -> {selectTargetText();
+            try {
+                controller.attack();
+            } catch (InvalidMovementException e) {
+                e.printStackTrace();
+            }
+        });
 
         Button inventory = new Button("Inventory");
-        inventory.setOnAction(event -> {inventoryBox(); controller.toInventory();});
+        inventory.setOnAction(event -> {inventoryBox();
+            try {
+                controller.toInventory();
+            } catch (InvalidMovementException e) {
+                e.printStackTrace();
+            }
+        });
 
 
         box.getChildren().addAll(text, attack, inventory);
@@ -202,7 +221,13 @@ public class BattleScene implements IBattleScene{
         text.setTextFill(Color.WHITE);
 
         Button back = new Button("Back");
-        back.setOnAction(event -> {playerTurnBox(); controller.back();});
+        back.setOnAction(event -> {playerTurnBox();
+            try {
+                controller.back();
+            } catch (InvalidMovementException e) {
+                e.printStackTrace();
+            }
+        });
 
         bottomHBox.getChildren().addAll(text, back);
     }
@@ -215,7 +240,13 @@ public class BattleScene implements IBattleScene{
         text.setTextFill(Color.WHITE);
 
         Button next = new Button("Next");
-        next.setOnAction(event -> controller.next());
+        next.setOnAction(event -> {
+            try {
+                controller.next();
+            } catch (InvalidMovementException e) {
+                e.printStackTrace();
+            }
+        });
 
         bottomHBox.getChildren().addAll(text, next);
 
@@ -242,19 +273,37 @@ public class BattleScene implements IBattleScene{
             int indexWeapon = i;
             Button button = new Button(controller.weaponInfo(controller.getInventoryWeapon(i)));
             button.setPrefWidth(200);
-            button.setOnAction(event -> controller.tryToEquipWeapon(indexWeapon));
+            button.setOnAction(event -> {
+                try {
+                    controller.tryToEquipWeapon(indexWeapon);
+                } catch (InvalidMovementException e) {
+                    e.printStackTrace();
+                }
+            });
             firstColumn.getChildren().add(button);
         }
         for (int i = 5; i < 9; i++) {
             int indexWeapon = i;
             Button button = new Button(controller.weaponInfo(controller.getInventoryWeapon(i)));
             button.setPrefWidth(200);
-            button.setOnAction(event -> controller.tryToEquipWeapon(indexWeapon));
+            button.setOnAction(event -> {
+                try {
+                    controller.tryToEquipWeapon(indexWeapon);
+                } catch (InvalidMovementException e) {
+                    e.printStackTrace();
+                }
+            });
             secondColumn.getChildren().add(button);
         }
 
         Button back = new Button("back");
-        back.setOnAction(event -> {playerTurnBox(); controller.back();});
+        back.setOnAction(event -> {playerTurnBox();
+            try {
+                controller.back();
+            } catch (InvalidMovementException e) {
+                e.printStackTrace();
+            }
+        });
         secondColumn.getChildren().add(back);
 
         bottomHBox.getChildren().addAll(currentWeapon, firstColumn, secondColumn);
@@ -270,7 +319,13 @@ public class BattleScene implements IBattleScene{
         text.setTextFill(Color.WHITE);
 
         Button next = new Button("Next");
-        next.setOnAction(event -> controller.next());
+        next.setOnAction(event -> {
+            try {
+                controller.next();
+            } catch (InvalidMovementException e) {
+                e.printStackTrace();
+            }
+        });
         bottomHBox.getChildren().addAll(text, next);
     }
 
@@ -281,7 +336,13 @@ public class BattleScene implements IBattleScene{
         Label text = new Label(controller.getCharacterName(controller.getCharacterTurn()) + " is choosing action");
         text.setTextFill(Color.WHITE);
         Button next = new Button("Next");
-        next.setOnAction(event -> {next.setDisable(true); controller.tryAttackPlayer(); setInfoColumn();});
+        next.setOnAction(event -> {next.setDisable(true);
+            try {
+                controller.tryAttackPlayer();
+            } catch (InvalidMovementException e) {
+                e.printStackTrace();
+            }
+            setInfoColumn();});
         bottomHBox.getChildren().addAll(text, next);
     }
 
