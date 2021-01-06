@@ -66,4 +66,10 @@ public interface ICharacter {
    */
   void addAddedToQueueListener(IHandler queueHandler);
 
+  /**
+   * Adds the listener to notify the damage received
+   */
+  void addDamageReceivedListener(IHandler damageReceiveHandler);
+
+
 }

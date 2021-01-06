@@ -21,6 +21,11 @@ public interface IWeapon {
      */
     int getDamage();
 
+    /**
+     * Return weapon's name
+     */
+    String getName();
+
 
     /**
      * Equips the weapon to character, if it applies

@@ -18,12 +18,14 @@ public abstract class AbstractCharacter implements ICharacter {
 
   protected final PropertyChangeSupport characterDeathEvent = new PropertyChangeSupport(this);
   protected final PropertyChangeSupport addedToQueueEvent = new PropertyChangeSupport(this);
+  protected final PropertyChangeSupport damageReceivedEvent = new PropertyChangeSupport(this);
 
   protected final BlockingQueue<ICharacter> turnsQueue;
   protected final String name;
   protected int life;
   protected int defense;
   protected ScheduledExecutorService scheduledExecutor;
+
 
 
   protected AbstractCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue,
@@ -46,8 +48,10 @@ public abstract class AbstractCharacter implements ICharacter {
    * Adds this character to the turns queue.
    */
   protected void addToQueue() {
-    turnsQueue.add(this);
-    addedToQueueEvent.firePropertyChange("CHARACTER_ADDED_TO_QUEUE", null, this);
+    if(getIsAlive()) {
+      turnsQueue.add(this);
+      addedToQueueEvent.firePropertyChange("CHARACTER_ADDED_TO_QUEUE", null, this);
+    }
     scheduledExecutor.shutdown();
   }
 
@@ -86,6 +90,7 @@ public abstract class AbstractCharacter implements ICharacter {
       newLife = 0;
       characterDeathEvent.firePropertyChange("DEATH_CHARACTER", null, this);
     }
+    damageReceivedEvent.firePropertyChange("DAMAGE_RECEIVED", this.life, newLife);
     this.life = newLife;
   }
 
@@ -97,6 +102,11 @@ public abstract class AbstractCharacter implements ICharacter {
   @Override
   public void addAddedToQueueListener(IHandler queueHandler) {
     addedToQueueEvent.addPropertyChangeListener(queueHandler);
+  }
+
+  @Override
+  public void addDamageReceivedListener(IHandler damageReceivedHandler){
+    damageReceivedEvent.addPropertyChangeListener(damageReceivedHandler);
   }
 
 

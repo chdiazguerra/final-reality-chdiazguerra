@@ -21,10 +21,8 @@ public abstract class AbstractWeapon implements IWeapon{
     this.weight = weight;
   }
 
-  /**
-   * Returns the weapon's name
-   */
-  protected String getName() {
+  @Override
+  public String getName() {
     return name;
   }
 

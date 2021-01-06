@@ -18,7 +18,6 @@ public class Enemy extends AbstractCharacter{
 
   private final int weight;
   private int damage;
-  protected ScheduledExecutorService scheduledExecutor;
 
   /**
    * Creates a new enemy with a name, a weight and the queue with the characters ready to
@@ -75,6 +74,7 @@ public class Enemy extends AbstractCharacter{
   public int getWeight() {
     return weight;
   }
+
 
 
 }
