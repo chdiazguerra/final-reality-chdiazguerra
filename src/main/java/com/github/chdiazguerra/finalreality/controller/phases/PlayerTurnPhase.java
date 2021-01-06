@@ -1,5 +1,10 @@
 package com.github.chdiazguerra.finalreality.controller.phases;
 
+/**
+ * Class that represents the player turn.
+ *
+ * @author Christian Diaz Guerra
+ */
 public class PlayerTurnPhase extends Phase{
 
 

@@ -1,5 +1,10 @@
 package com.github.chdiazguerra.finalreality.controller.phases;
 
+/**
+ * Class that represents the end turn phase.
+ *
+ * @author Christian Diaz Guerra
+ */
 public class EndTurnPhase extends Phase{
 
 
@@ -13,6 +18,16 @@ public class EndTurnPhase extends Phase{
             controller.beginTurn();
             controller.turnBoxScene();
         }
+    }
+
+    @Override
+    public void allPlayerCharactersDead(){
+        toLostGamePhase();
+    }
+
+    @Override
+    public void allEnemiesDead(){
+        toWinGamePhase();
     }
 
     @Override

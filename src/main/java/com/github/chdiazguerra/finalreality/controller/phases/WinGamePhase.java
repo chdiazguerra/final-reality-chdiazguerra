@@ -1,5 +1,10 @@
 package com.github.chdiazguerra.finalreality.controller.phases;
 
+/**
+ * Class that represents the won game.
+ *
+ * @author Christian Diaz Guerra
+ */
 public class WinGamePhase extends Phase{
 
 

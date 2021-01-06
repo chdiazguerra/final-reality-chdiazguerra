@@ -1,5 +1,9 @@
 package com.github.chdiazguerra.finalreality.gui.scenes;
 
+/**
+ * Interface for the battle scene (Null pattern). It has the public methods that can be called by the controller.
+ * @author Christian Diaz Guerra
+ */
 public interface IBattleScene {
 
     /**

@@ -4,6 +4,11 @@ import com.github.chdiazguerra.finalreality.model.character.ICharacter;
 import com.github.chdiazguerra.finalreality.model.character.player.IPlayerCharacter;
 
 
+/**
+ * Class that represents the selecting target phase.
+ *
+ * @author Christian Diaz Guerra
+ */
 public class SelectTargetPhase extends Phase{
 
 

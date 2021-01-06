@@ -22,7 +22,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Class that implements the scene for the battle, setting up the enemy and player view and a box for the
+ * information about the turns.
+ *
+ * @author Christian Diaz Guerra
+ */
 public class BattleScene implements IBattleScene{
 
     private final String PATH;
@@ -40,6 +45,21 @@ public class BattleScene implements IBattleScene{
 
     private Clip backgroundSound, victorySound, lostSound;
 
+    /**
+     * Creates the battle scene, initializing the variables with the arguments passed.
+     * @param width
+     *      width of the window
+     * @param height
+     *      height of the window
+     * @param pathFiles
+     *      path of the resources
+     * @param primaryStage
+     *      stage
+     * @param controller
+     *      game controller
+     * @param playerImages
+     *      images of the player characters chosen by the user.
+     */
     public BattleScene(int width, int height, String pathFiles, Stage primaryStage, GameController controller, List<ImageView> playerImages){
         this.width = width;
         this.height = height;
@@ -130,6 +150,9 @@ public class BattleScene implements IBattleScene{
         return scene;
     }
 
+    /**
+     * Sets the enemy columns, with their buttons, with a maximum of 4 for the first column
+     */
     private void setEnemyColumns(){
         int numberOfEnemies = controller.getAllEnemies().size();
         int numberOfEnemiesFirstColumn = Math.min(4, numberOfEnemies);
@@ -392,6 +415,9 @@ public class BattleScene implements IBattleScene{
         }
     }
 
+    /**
+     * Plays the starting battle sound.
+     */
     private void playInitBattleSound() {
         String audioFilePath = PATH + "Sounds/InitBattle.wav";
         try {
@@ -409,6 +435,9 @@ public class BattleScene implements IBattleScene{
         }
     }
 
+    /**
+     * Play the sound when a character is attacked.
+     */
     private void playDamageSound() {
         String audioFilePath = PATH + "Sounds/Damage.wav";
         try {
@@ -423,6 +452,9 @@ public class BattleScene implements IBattleScene{
         }
     }
 
+    /**
+     * Plays the sound for the won battle.
+     */
     private void playVictorySound() {
         String audioFilePath = PATH + "Sounds/Victory.wav";
         try {
@@ -437,6 +469,9 @@ public class BattleScene implements IBattleScene{
         }
     }
 
+    /**
+     * Plays the sound for the lost battle.
+     */
     private void playLostSound() {
         String audioFilePath = PATH + "Sounds/Lost.wav";
         try {

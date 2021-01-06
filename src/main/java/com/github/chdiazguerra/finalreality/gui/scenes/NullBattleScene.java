@@ -1,5 +1,10 @@
 package com.github.chdiazguerra.finalreality.gui.scenes;
 
+/**
+ * Class for the null battle scene. The methods are empty.
+ *
+ * @author Christian Diaz Guerra
+ */
 public class NullBattleScene implements IBattleScene{
     @Override
     public void refreshWaitingNext() {

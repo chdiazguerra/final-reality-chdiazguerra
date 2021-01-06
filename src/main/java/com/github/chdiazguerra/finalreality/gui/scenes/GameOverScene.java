@@ -15,6 +15,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * Class that contains the view for the game over scene.
+ *
+ * @author Christian Diaz Guerra
+ */
 public class GameOverScene {
     private VBox root;
     private HBox playerCharacters;
@@ -24,6 +29,21 @@ public class GameOverScene {
     private Clip endingSound;
 
 
+    /**
+     * Creates the game over scene, initializing the variables with the arguments passed.
+     * @param width
+     *      width of the window
+     * @param height
+     *      height of the window
+     * @param playerColumn
+     *      player column from the battle scene
+     * @param infoColumn
+     *      info column from the battle scene
+     * @param primaryStage
+     *      stage
+     * @param pathFiles
+     *      path of the resources
+     */
     public GameOverScene(int width, int height, VBox playerColumn, VBox infoColumn, Stage primaryStage, String pathFiles){
         this.PATH = pathFiles;
         root = new VBox(5);
@@ -58,6 +78,9 @@ public class GameOverScene {
         playEndingSound();
     }
 
+    /**
+     * Plays the sound of the ending scene.
+     */
     private void playEndingSound() {
         String audioFilePath = PATH + "Sounds/Ending.wav";
         try {

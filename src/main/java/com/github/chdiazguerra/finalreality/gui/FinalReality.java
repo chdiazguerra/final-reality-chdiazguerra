@@ -3,19 +3,13 @@ package com.github.chdiazguerra.finalreality.gui;
 import com.github.chdiazguerra.finalreality.controller.GameController;
 import com.github.chdiazguerra.finalreality.gui.scenes.InitScene;
 import javafx.application.Application;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
 
 /**
  * Main entry point for the application.
- * <p>
- * <Complete here with the details of the implemented application>
- *
+ * Sets the title and the size of the window.  Initializes the initial scene.
  * @author Ignacio Slater Muñoz.
  * @author Christian Diaz Guerra
  */

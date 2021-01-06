@@ -23,7 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
+/**
+ * Creates the initial scene, where the user configures the number of enemies, the name of the player characters
+ * and their types.
+ *
+ * @author Christian Diaz Guerra
+ */
 public class InitScene {
     private Random rng = new Random();
     private GameController controller;
@@ -42,6 +47,20 @@ public class InitScene {
     private Clip backgroundSound;
 
 
+    /**
+     * Creates the initial scene, initializing the arguments passed.
+     *
+     * @param width
+     *      width of the window
+     * @param height
+     *      height of the window
+     * @param pathFiles
+     *      path of the resources
+     * @param primaryStage
+     *      stage
+     * @param controller
+     *      game controller
+     */
     public InitScene(int width, int height, String pathFiles, Stage primaryStage, GameController controller){
         this.width = width;
         this.height = height;
@@ -52,6 +71,9 @@ public class InitScene {
         namesUsed = new ArrayList<>();
     }
 
+    /**
+     * Builds the initial scene and shows it in the stage.
+     */
     public Scene build() throws FileNotFoundException {
 
         root = new VBox(10);
@@ -114,6 +136,10 @@ public class InitScene {
     }
 
 
+    /**
+     * Builds the box for the selection of a knight as player character, with its image, class, text field
+     * for the name and accept button.
+     */
     private void knightBox(HBox box) throws FileNotFoundException {
 
         ImageView image = new ImageView(new Image(new FileInputStream(PATH + "Knight.gif")));
@@ -153,6 +179,10 @@ public class InitScene {
         box.getChildren().addAll(image, classCharacter, next, name, accept);
     }
 
+    /**
+     * Builds the box for the selection of a thief as player character, with its image, class, text field
+     * for the name and accept button.
+     */
     private void thiefBox(HBox box) throws FileNotFoundException {
 
         ImageView image = new ImageView(new Image(new FileInputStream(PATH + "Thief.gif")));
@@ -194,6 +224,10 @@ public class InitScene {
 
     }
 
+    /**
+     * Builds the box for the selection of a white mage as player character, with its image, class, text field
+     * for the name and accept button.
+     */
     private void whiteMageBox(HBox box) throws FileNotFoundException {
         ImageView image = new ImageView(new Image(new FileInputStream(PATH + "WhiteMage.gif")));
         Label classCharacter = new Label("White Mage");
@@ -234,6 +268,10 @@ public class InitScene {
 
     }
 
+    /**
+     * Builds the box for the selection of a black mage as player character, with its image, class, text field
+     * for the name and accept button.
+     */
     private void blackMageBox(HBox box) throws FileNotFoundException {
         ImageView image = new ImageView(new Image(new FileInputStream(PATH + "BlackMage.gif")));
         Label classCharacter = new Label("Black Mage");
@@ -274,6 +312,10 @@ public class InitScene {
 
     }
 
+    /**
+     * Builds the box for the selection of a engineer as player character, with its image, class, text field
+     * for the name and accept button.
+     */
     private void engineerBox(HBox box) throws FileNotFoundException {
         ImageView image = new ImageView(new Image(new FileInputStream(PATH + "Engineer.gif")));
         Label classCharacter = new Label("Engineer");
@@ -314,12 +356,18 @@ public class InitScene {
 
     }
 
+    /**
+     * Action for the accept button of every player character selection.
+     */
     private void accept(HBox box){
         box.getChildren().get(2).setDisable(true);
         box.getChildren().get(3).setDisable(true);
         box.getChildren().get(4).setDisable(true);
     }
 
+    /**
+     * Action for the accept button of the enemy selection
+     */
     private void acceptEnemy(Integer numberOfEnemies){
         for(int i=0; i<numberOfEnemies; i++){
             controller.createEnemy("Enemy "+i,
@@ -330,6 +378,9 @@ public class InitScene {
         }
     }
 
+    /**
+     * Action for the next button, activated only if the user finished setting up the game.
+     */
     private void next() throws FileNotFoundException {
         if(totalAccepted==5){
             backgroundSound.stop();
@@ -355,6 +406,9 @@ public class InitScene {
         }
     }
 
+    /**
+     * Plays the sound for the buttons clicks.
+     */
     private void playMoveSound(){
         String audioFilePath = PATH + "Sounds/Move.wav";
         try {
